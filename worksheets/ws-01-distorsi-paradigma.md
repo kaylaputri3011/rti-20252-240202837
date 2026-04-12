@@ -62,11 +62,11 @@ Tanggal          : 12 April 2026
 
 2. Posisi paradigma:
    - Pendekatan: [x] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed
-   - Alasan: Studi ini menguji fenomena yang objektif dan terukur, yaitu mengevaluasi tingkat *error* numerik (RMSE) algoritma komputasi untuk memprediksi ketertarikan pengguna dengan data kuantitatif.
+   - Alasan: Studi ini menguji fenomena yang objektif dan terukur, yaitu mengevaluasi tingkat error numerik (RMSE) algoritma komputasi untuk memprediksi ketertarikan pengguna dengan data kuantitatif.
 
 3. Identifikasi distorsi:
    - Asumsi tersembunyi: Berasumsi bahwa skor pengguna, yang terdiri dari 1-5 bintang, hanya menunjukkan kualitas tempat wisata.
-   - Sumber bias potensial: *Self-selection bias*—hanya wisatawan yang sangat puas (bintang 5) atau sangat kecewa (bintang 1) yang mau repot-repot memberikan rating, sementara pengguna netral jarang mengumpulkan datanya.
+   - Sumber bias potensial: Self-selection bias—hanya wisatawan yang sangat puas (bintang 5) atau sangat kecewa (bintang 1) yang mau repot-repot memberikan rating, sementara pengguna netral jarang mengumpulkan datanya.
    - Langkah mitigasi: Untuk memastikan konteks rating valid, gabungkan data kuantitatif (rating) dengan analisis sentimen dari ulasan teks.
 
 4. Komitmen etika:
