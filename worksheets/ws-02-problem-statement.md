@@ -67,33 +67,34 @@ Masalah riset yang layak harus memenuhi 5 kriteria:
 PROBLEM STATEMENT BUILDER
 
 Domain & Konteks
-  Domain   : ____________________
-  Konteks  : ____________________
+  Domain   : Machine Learning / Pariwisata (Sistem Rekomendasi)
+  Konteks  : Rekomendasi destinasi wisata di Kota Semarang berbasis personalisasi pengguna.
 
 System Context
-  Input       : ____________________
-  Process     : ____________________
-  Output      : ____________________
-  Outcome     : ____________________
-  Constraints : ____________________
-  Stakeholders: ____________________
+  Input       : Data historis rating tempat wisata dari berbagai pengguna (User-Item Rating Matrix).
+  Process     : Penghitungan kemiripan (similarity) antar pengguna dan prediksi nilai rating menggunakan algoritma Collaborative Filtering.
+  Output      : Daftar rekomendasi tempat wisata (Top-N recommendation) beserta prediksi ratingnya.
+  Outcome     : Wisatawan mendapatkan rekomendasi yang relevan dengan seleranya, menghemat waktu pencarian informasi.
+  Constraints : Masalah sparsity (matriks rating banyak yang kosong) dan cold-start (pengguna baru yang belum memberi rating).
+  Stakeholders: Wisatawan (pengguna akhir) dan pengelola tempat wisata.
 
 Fenomena → Problem
-  Fenomena yang diamati             : ____________________
-  Gejala (symptom) yang terukur     : ____________________
-  Masalah yang didiagnosis          : ____________________
-  Masalah riset (researchable)      : ____________________
-  Variabel yang terukur             : ____________________
+  Fenomena yang diamati             : Wisatawan sering kebingungan memilih tempat wisata di Semarang karena banyaknya pilihan (information overload).
+  Gejala (symptom) yang terukur     : Pencarian destinasi memakan waktu lama dan rekomendasi yang ada di internet sering kali bersifat umum (tidak sesuai selera spesifik).
+  Masalah yang didiagnosis          : Belum adanya sistem penyaringan informasi yang memanfaatkan kemiripan preferensi antar pengguna untuk merekomendasikan tempat secara personal.
+  Masalah riset (researchable)      : Bagaimana tingkat akurasi algoritma Collaborative Filtering dalam memprediksi rating tempat wisata di Kota Semarang berdasarkan matriks data pengguna?
+  Variabel yang terukur             : Tingkat error prediksi algoritma, yang diukur menggunakan metrik Mean Absolute Error (MAE).
 
 Problem Quality Check
-  [ ] Clarity — Apakah satu orang membaca akan paham?
-  [ ] Measurability — Apakah ada metrik kuantitatif?
-  [ ] Relevance — Apakah penting untuk domain?
-  [ ] Testability — Apakah bisa gagal?
-  [ ] Impact — Apakah ada kontribusi jika terjawab?
+  [x] Clarity — Apakah satu orang membaca akan paham?
+  [x] Measurability — Apakah ada metrik kuantitatif?
+  [x] Relevance — Apakah penting untuk domain?
+  [x] Testability — Apakah bisa gagal?
+  [x] Impact — Apakah ada kontribusi jika terjawab?
 
 Problem Statement (1 paragraf):
-  ____________________
+  Wisatawan yang berkunjung ke Kota Semarang kerap mengalami kesulitan dalam memilih destinasi akibat kelebihan informasi dan banyaknya pilihan tempat wisata yang ada (information overload). Masalah ini berakar dari kurangnya sistem rekomendasi terpersonalisasi yang mampu menyaring pilihan berdasarkan selera unik masing-masing individu, bukan sekadar popularitas tempat wisata secara umum. Meskipun data riwayat kunjungan dan rating dari wisatawan lain tersedia, data tersebut belum dimanfaatkan secara optimal untuk memprediksi preferensi pengguna secara komputasional. Oleh karena itu, penelitian ini bertujuan mengimplementasikan dan mengukur tingkat akurasi metode Collaborative Filtering dalam memprediksi rating destinasi wisata di Kota Semarang, sehingga dapat menghasilkan rekomendasi yang secara spesifik relevan dengan preferensi masing-masing wisatawan.
+
 ```
 
 ---
@@ -102,17 +103,17 @@ Problem Statement (1 paragraf):
 
 Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Problem Formation Model.
 
-**Topik awal:** ________________________________________
+**Topik awal:** Sistem Rekomendasi Pariwisata Berbasis Machine Learning.
 
 | Tahap | Hasil |
 |-------|-------|
-| Reality | *Contoh: Aplikasi e-commerce sering ditinggalkan saat checkout* |
-| Observed Issue (Symptom) | *Contoh: Bounce rate checkout 68%* |
-| Diagnosed Problem (Root Cause) | |
-| Researchable Problem | |
-| Measurable Variable | |
+| Reality | Banyaknya jumlah tempat wisata di Semarang membuat wisatawan kesulitan menentukan tujuan yang sesuai dengan selera mereka. |
+| Observed Issue (Symptom) | Rekomendasi wisata di brosur atau portal web seringkali tidak relevan karena bersifat statis dan memukul rata semua wisatawan. |
+| Diagnosed Problem (Root Cause) | Tidak adanya sistem cerdas yang mampu memetakan dan menghubungkan kemiripan pola kesukaan (rating) antar sesama wisatawan secara otomatis. |
+| Researchable Problem | Seberapa akurat pendekatan Collaborative Filtering dalam memprediksi preferensi wisata pengguna berdasarkan data matriks rating historis? |
+| Measurable Variable | Nilai selisih antara rating asli dan rating prediksi yang diukur melalui metrik Mean Absolute Error (MAE). |
 
-**Apakah terjebak solution-first thinking?** [ ] Ya / [ ] Tidak
+**Apakah terjebak solution-first thinking?** [ ] Ya / [x] Tidak
 > Jika ya, kembali ke tahap mana? ________________________
 
 ---
@@ -123,14 +124,14 @@ Gambarkan konteks sistem dari masalah riset di Latihan 1.
 
 | Komponen | Deskripsi |
 |----------|----------|
-| Input | *Contoh: Request HTTP dari browser pengguna* |
-| Process | |
-| Output | |
-| Outcome | |
-| Constraints | |
-| Stakeholders | |
+| Input | Dataset berupa daftar pengguna (User ID), daftar tempat wisata (Item ID), dan nilai rating (1-5) yang diberikan pengguna. |
+| Process | Komputasi algoritma Collaborative Filtering untuk menghitung jarak kemiripan (similarity) antar pengguna dan melakukan perhitungan prediksi rating. |
+| Output | Hasil prediksi berupa angka estimasi rating untuk tempat wisata yang belum pernah dikunjungi oleh pengguna target. |
+| Outcome | Wisatawan lebih cepat dan tepat dalam menemukan destinasi, serta potensi peningkatan kunjungan ke lokasi wisata tersembunyi (hidden gem) yang relevan. |
+| Constraints | Kualitas hasil prediksi sangat bergantung pada kelengkapan data (terancam oleh data sparsity). |
+| Stakeholders | Pengguna aplikasi rekomendasi (wisatawan) dan pengembang perangkat lunak (software developer). |
 
-**Komponen mana yang paling relevan dengan masalah riset?** _______________
+**Komponen mana yang paling relevan dengan masalah riset?** Process (karena metode komputasi dievaluasi di sini) dan Output (karena akurasi hasil dari metode akan diukur kelayakannya).
 
 ---
 
@@ -140,17 +141,16 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Clarity | *Contoh: 4 — cukup jelas tapi perlu spesifikasi dataset* | |
-| Measurability | | |
-| Relevance | | |
-| Testability | | |
-| Impact | | |
+| Clarity | 4 | Subjek penelitian (tempat wisata Semarang) dan metode (Collaborative Filtering) sudah jelas, walau bisa ditambahkan detail jumlah dataset yang digunakan. |
+| Measurability |5| Sangat dapat diukur. Perbandingan antara prediksi algoritma dengan nilai aktual pengguna dapat dihitung secara presisi menggunakan MAE. |
+| Relevance |5| Sangat relevan di era smart tourism di mana personalisasi pengalaman pengguna adalah fokus utama industri pariwisata. |
+| Testability |5| Hipotesis bisa gagal; ada kemungkinan bahwa Collaborative Filtering justru menghasilkan tingkat eror (MAE) yang sangat tinggi jika matriks datanya terlalu kosong (sparse). |
+| Impact |4| Memberikan validasi empiris kelayakan Collaborative Filtering untuk studi kasus pariwisata lokal di Semarang. |
 
-**Skor total:** _____ / 25
+**Skor total:** 23 / 25
 
 **Problem statement versi final (1 paragraf):**
-> ___________________________________________________
-> ___________________________________________________
+> Wisatawan yang berkunjung ke Kota Semarang kerap mengalami kesulitan dalam memilih destinasi akibat kelebihan informasi dan banyaknya pilihan tempat wisata yang ada (information overload). Masalah ini berakar dari kurangnya sistem rekomendasi terpersonalisasi yang mampu menyaring pilihan berdasarkan selera unik masing-masing individu, bukan sekadar popularitas tempat wisata secara umum. Meskipun data riwayat kunjungan dan rating dari wisatawan lain tersedia, data tersebut belum dimanfaatkan secara optimal untuk memprediksi preferensi pengguna secara komputasional. Oleh karena itu, penelitian ini bertujuan mengimplementasikan dan mengukur tingkat akurasi metode Collaborative Filtering dalam memprediksi rating destinasi wisata di Kota Semarang, sehingga dapat menghasilkan rekomendasi yang secara spesifik relevan dengan preferensi masing-masing wisatawan.
 
 ---
 
@@ -158,6 +158,8 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
-**Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+##Jawaban
+
+> ​Perbedaan paling mendasar ada pada sifat ketidaktahuan (unknowns) dan tujuan akhir.
+​> Saat menemukan masalah coding (bug), kita tahu bahwa sistem seharusnya bisa berjalan. Pendekatannya adalah troubleshooting: kita mencari letak kesalahan sintaks atau logika agar program kembali berfungsi sesuai spesifikasi. Tujuannya murni perbaikan rekayasa (engineering).
+> ​Sebaliknya, masalah riset mendefinisikan hal yang memang belum diketahui atau belum terbukti kebenarannya oleh komunitas ilmiah. Misalnya, kita tidak tahu apakah algoritma A akan efektif di studi kasus B. Pendekatannya adalah investigasi sistematis: merancang eksperimen, mengumpulkan data, dan menguji variabel (seperti menghitung MAE) untuk mengisi knowledge gap. Tujuannya adalah menghasilkan temuan baru yang valid dan dapat dipertanggungjawabkan, bukan sekadar membuat program berjalan tanpa eror.
