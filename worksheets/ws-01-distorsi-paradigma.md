@@ -83,6 +83,7 @@ Pilih satu paper riset di bidang TI yang mengklaim "metode X meningkatkan perfor
 **Paper yang dipilih:**
 > Judul: Sistem Rekomendasi Tempat Wisata Di Kota Semarang Menggunakan Metode Collaborative Filtering
 > Penulis (Tahun): S. R. Cholil, N. A. Rizki, T. F. Hanifah (2023)
+> link DOI: https://doi.org/10.26798/jiko.v7i1.727
 
 | Tahap | Apa yang Dilakukan | Potensi Distorsi |
 |-------|-------------------|-----------------|
