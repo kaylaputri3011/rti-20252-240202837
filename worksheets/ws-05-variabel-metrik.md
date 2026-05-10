@@ -64,8 +64,11 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 ## Template A.5 — Definisi Variabel, Metrik & Justifikasi
 
 ---
+```
 VARIABLE & METRIC DEFINITION
+
 Research Question: Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar milik Cholil dkk. (2023) pada dataset rating pariwisata Semarang?
+```
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
