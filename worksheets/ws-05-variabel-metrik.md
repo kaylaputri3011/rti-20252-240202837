@@ -65,20 +65,19 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 
 ```
 VARIABLE & METRIC DEFINITION
-
-Research Question: ____________________
+Research Question: Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar milik Cholil dkk. (2023) pada dataset rating pariwisata Semarang?
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
-|----------|------|--------|--------|-------|--------|---------------|-------------|
-|          | IV   |        |        |       |        |               |             |
-|          | DV   |        |        |       |        |               |             |
-|          | CV   |        |        |       |        |               |             |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Jenis Algoritma | IV | Metode komputasi rekomendasi | Kategori (Context-Aware CF vs Standar CF) | Nominal | — | Menjalankan *script* algoritma pada *environment* Python | Algoritma adalah *treatment* (perlakuan) utama yang dimanipulasi untuk menguji hipotesis perbaikan performa. |
+| Akurasi Prediksi | DV | Tingkat *error* atau kesalahan tebakan sistem | Mean Absolute Error (MAE) | Ratio | Poin (0-4) | Menghitung selisih absolut rata-rata antara rating prediksi sistem dengan rating aktual pengguna di data uji | MAE adalah metrik standar (SOTA) yang merepresentasikan jarak simpangan tebakan secara linear dan transparan. |
+| Kondisi Eksperimen | CV | Validitas internal pengujian | Nilai K pada *K-Fold Cross Validation* dan *Dataset Size* | Ratio | — | Menetapkan nilai *K=5* dan menggunakan 100% dataset yang sama untuk kedua iterasi algoritma | Menjaga agar perbedaan performa DV murni karena IV, bukan karena perbedaan porsi data latih/uji. |
 
 Alignment Check:
   RQ → Concept → Variable → Metric → Data → Result
-  [ ] Setiap langkah terdokumentasi
-  [ ] Tidak ada "lompatan logis"
-  [ ] Metrik mengukur apa yang dimaksud (construct validity)
+  [x] Setiap langkah terdokumentasi
+  [x] Tidak ada "lompatan logis"
+  [x] Metrik mengukur apa yang dimaksud (construct validity)
 ```
 
 ---
@@ -87,17 +86,17 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** __________________________________________________
+**RQ:** Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar pada dataset rating pariwisata Semarang?
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-| *Contoh: Jenis model* | *IV* | *Pendekatan klasifikasi* | *Categorical: CNN vs RF* | *Nominal* | *—* |
-| | DV | | | | |
-| | CV | | | | |
+| Model Algoritma | IV | Pendekatan penyaringan informasi | Kategori: Context-Aware CF vs Standar CF | Nominal | - |
+| Akurasi Sistem | DV | (Tingkat Kesalahan (Error Rate) | MAE (Mean Absolute Error) | Ratio | Poin Rating (0-4) |
+| Lingkungan Uji | CV | Stabilitas & Reproduksibilitas | Parameter K-Fold (k=5) & Set Data | Ratio  | - |
 
-**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [ ] Tidak
-> Jika ya, di mana? ____________________________________
-
+**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [x] Tidak
+> Jika ya, di mana? -
+(Rantai sudah solid: karena ingin tahu algoritma mana yang paling akurat, maka harus membandingkan dua metode spesifik dan mengukur selisih ratingnya menggunakan metrik matematis baku).
 ---
 
 ## Latihan 2 — Evaluasi Metrik
@@ -106,15 +105,15 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Representative | *Contoh: 4 — F1-Score mewakili keseimbangan precision-recall* | |
-| Sensitive | | |
-| Feasible | | |
+| Representative | 5 | Sangat mewakili MAE secara langsung mencerminkan seberapa jauh melesetnya tebakan sistem dari rating asli yang diberikan wisatawan. |
+| Sensitive | 4 | Sensitif terhadap perubahan pembobotan parameter algoritma, meskipun tidak terlalu menghukum error yang berukuran sangat ekstrem (outlier). |
+| Feasible | 5 | Sangat mudah diimplementasikan, waktu komputasi perhitungannya ringan (hanya operasi pengurangan dan rata-rata), dan tidak butuh biaya survei tambahan karena data sudah berbentuk angka. |
 
-**Apakah perlu secondary metric?** [ ] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? _____________________________
+**Apakah perlu secondary metric?** [x] Ya / [ ] Tidak
+> Jika ya, apa dan mengapa? Root Mean Square Error (RMSE). Dibutuhkan sebagai metrik sekunder karena RMSE memberikan penalti lebih besar pada error yang parah (misalnya tebakannya meleset 3 bintang). Ini membantu melihat apakah algoritma Context-Aware tidak hanya akurat secara rata-rata, tetapi juga mampu menekan jumlah tebakan yang sangat melenceng.
 
 **Contoh kasus ceiling effect untuk metrik ini:**
-> ___________________________________________________
+> Ketika dataset yang digunakan sangat bersih atau terlalu mudah diprediksi, nilai MAE mungkin sudah mencapai 0.01 (hampir sempurna). Dalam kondisi ini, membuktikan bahwa algoritma usulan lebih baik dari algoritma standar menjadi sangat sulit karena performa dasar sudah mentok (efek batas atas akurasi/ceiling effect).
 
 ---
 
@@ -124,10 +123,10 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 
 | Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
 |---------|-----------|---------|------------------|
-| Completeness | *Apakah semua data point terkumpul?* | | |
-| Consistency | *Apakah ada kontradiksi internal?* | | |
-| Validity | *Apakah benar-benar mengukur yang dimaksud?* | | |
-| Representativeness | *Apakah sampel mewakili populasi target?* | | |
+| Completeness | *Apakah semua data point terkumpul?* | Tidak, data pasti sparse (matriks bolong-bolong) karena tidak ada turis yang mengulas semua tempat. | Menetapkan ambang batas (threshold): hanya mengambil user yang minimal sudah memberi rating di 3 tempat berbeda. |
+| Consistency | *Apakah ada kontradiksi internal?* | Mungkin. Ada pengguna yang selalu memberi bintang 5 (spam/bot) atau memberi rating di 10 lokasi berbeda pada detik yang sama. | Melakukan data cleaning untuk menghapus user anomali berdasarkan pola timestamp dan varians rating. |
+| Validity | *Apakah benar-benar mengukur yang dimaksud?* | Sebagian besar ya, namun rating bintang 5 di aplikasi bisa saja bukan karena wisatanya bagus, tapi tiketnya murah. | Secara metodologi diakui sebagai limitasi (tidak murni kepuasan fasilitas), namun secara praktis matriks angka tetap valid untuk melatih machine learning. |
+| Representativeness | *Apakah sampel mewakili populasi target?* | Mewakili turis digital (yang terbiasa pakai smartphone), tapi kurang mewakili turis konvensional/lansia. | Menyatakan batasan demografi secara transparan di dalam paper pada sub-bab Limitasi Riset. |
 
 ---
 
@@ -136,5 +135,5 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Menentukan metrik setelah melihat data dianggap sebagai p-hacking (atau HARKing - Hypothesizing After the Results are Known) karena peneliti secara sengaja menyeleksi metrik yang hanya menguntungkan hipotesisnya dan menyembunyikan metrik yang menunjukkan kegagalan sistem. Ini melanggar objektivitas ilmiah karena manipulasi kondisi eksperimen demi mengejar status "signifikan" (p-value < 0.05).
+> Perbedaannya dengan eksplorasi data yang sah (Exploratory Data Analysis) terletak pada niat dan pelaporannya. Eksplorasi yang sah diumumkan secara transparan sebagai "analisis tambahan" (post-hoc) untuk menemukan pola-pola menarik yang di luar hipotesis awal (misalnya: "Meskipun secara MAE tidak signifikan, kami tidak sengaja menemukan pola menarik pada pengguna remaja..."). Eksplorasi sah tidak menutupi metrik utama (Confirmatory) yang gagal.
