@@ -72,12 +72,13 @@ Research Question: Sejauh mana integrasi variabel Context-Aware (jarak dan waktu
 | Jenis Algoritma | IV | Metode komputasi rekomendasi | Kategori (Context-Aware CF vs Standar CF) | Nominal | — | Menjalankan *script* algoritma pada *environment* Python | Algoritma adalah *treatment* (perlakuan) utama yang dimanipulasi untuk menguji hipotesis perbaikan performa. |
 | Akurasi Prediksi | DV | Tingkat *error* atau kesalahan tebakan sistem | Mean Absolute Error (MAE) | Ratio | Poin (0-4) | Menghitung selisih absolut rata-rata antara rating prediksi sistem dengan rating aktual pengguna di data uji | MAE adalah metrik standar (SOTA) yang merepresentasikan jarak simpangan tebakan secara linear dan transparan. |
 | Kondisi Eksperimen | CV | Validitas internal pengujian | Nilai K pada *K-Fold Cross Validation* dan *Dataset Size* | Ratio | — | Menetapkan nilai *K=5* dan menggunakan 100% dataset yang sama untuk kedua iterasi algoritma | Menjaga agar perbedaan performa DV murni karena IV, bukan karena perbedaan porsi data latih/uji. |
-
+```
 Alignment Check:
   RQ → Concept → Variable → Metric → Data → Result
   [x] Setiap langkah terdokumentasi
   [x] Tidak ada "lompatan logis"
   [x] Metrik mengukur apa yang dimaksud (construct validity)
+  ```
 ---
 
 ---
