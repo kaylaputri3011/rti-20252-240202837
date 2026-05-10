@@ -142,6 +142,7 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
 **Komponen mana yang diprediksi paling berkontribusi?** 
 > Komponen B (Spatial/Jarak Filter).
+
 **Mengapa?**
 > Secara logika domain pariwisata, preferensi jarak (kemacetan, lokasi hotel ke tempat wisata) adalah batasan mutlak (hard constraint). Seorang wisatawan di Semarang Bawah sangat kecil kemungkinannya akan mengunjungi rekomendasi wisata di area Bandungan (Semarang Atas/Kab. Semarang) jika waktunya mepet, sebaik apa pun rating tempat tersebut. Oleh karena itu, memfilter rekomendasi berdasarkan geolokasi akan memangkas banyak error prediksi.
 
