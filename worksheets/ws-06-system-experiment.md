@@ -104,7 +104,7 @@ Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 | Error Rate (MAE) | DV | *Modul Evaluator* | Mengkalkulasi nilai absolut dari (prediksi - aktual) dan menyimpannya di file log. |
 | Data Lingkungan Uji | CV | Modul Dataset Splitter | Mengunci nilai K-Fold dan menggunakan pembagian train/test set yang identik pada kedua algoritma. |
 
-**Apakah semua variabel bisa di-map?** [ x] Ya / [ ] Tidak
+**Apakah semua variabel bisa di-map?** [x] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? -
 > (Sistem sudah memisahkan antara penyuplai data, pemroses data, dan penilai data).
 
@@ -121,7 +121,9 @@ Evaluasi desain sistem terhadap 4 prinsip.
 | Controllability | ✅ | Semua hyperparameter (N-neighbors, ambang batas jarak, rasio split data) diatur secara terpusat melalui satu file config.yaml. Tidak ada nilai hardcoded di dalam logika kode. |
 | Measurability | ✅ | Sistem secara otomatis mencetak hasil MAE di terminal dan menambahkannya (append) ke file CSV di folder /results setiap kali eksekusi selesai. |
 
-**Prinsip mana yang paling sulit dipenuhi?** Controllability
+**Prinsip mana yang paling sulit dipenuhi?** 
+> Controllability
+
 **Strategi untuk mengatasinya:**
 > Godaan terbesar saat coding adalah melakukan hardcode nilai variabel di tengah-tengah fungsi agar program cepat berjalan. Strateginya adalah menggunakan kerangka eksperimen (seperti Hydra di Python) agar sistem menolak untuk dieksekusi jika parameter eksperimen di file konfigurasi belum terdefinisi secara lengkap.
 
