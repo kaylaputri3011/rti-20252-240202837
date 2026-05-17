@@ -72,11 +72,13 @@ Research Question : Sejauh mana integrasi variabel Context-Aware (jarak dan wakt
 Hypothesis        : (H₁) Terdapat penurunan skor MAE yang signifikan secara statistik pada algoritma Context-Aware User-Based CF dibandingkan dengan User-Based CF standar.
 Tipe Eksperimen   : [x] Comparison  [ ] Ablation  [ ] Parameter
 '''
+
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
 | Control | Algoritma *baseline* tanpa filter konteks (mereplikasi paper Cholil dkk., 2023) | User-Based CF Standar | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
 | Treatment | Algoritma usulan yang menginkorporasikan jarak geografis dan jam buka | Context-Aware User-Based CF | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
+
 '''
 Fairness Checklist:
   [x] Dataset identik untuk semua kondisi
@@ -85,6 +87,7 @@ Fairness Checklist:
   [x] Environment identik
   [x] Metrik evaluasi sama
 '''
+
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
@@ -92,6 +95,7 @@ Threat Analysis:
 | External    | Karakteristik geografis kota Semarang mungkin terlalu unik, algoritma gagal di kota lain. | Membatasi ruang lingkup klaim hanya pada "pariwisata lokal perkotaan" di dokumen riset. |
 | Construct   | MAE yang rendah mungkin tidak berarti wisatawan puas (*user satisfaction*). | Menambahkan RMSE sebagai metrik sekunder untuk melihat seberapa sering sistem membuat kesalahan fatal (tebakan meleset jauh). |
 | Conclusion  | Ukuran sampel uji terlalu sedikit, hasil MAE terlihat bagus karena kebetulan (*chance*). | Melakukan iterasi *Repeated K-Fold Cross Validation* untuk mendapatkan ukuran sampel uji statistik yang lebih stabil (misal 30 iterasi). |
+
 '''
 Statistical Plan:
   Uji statistik    : Paired Sample T-Test
