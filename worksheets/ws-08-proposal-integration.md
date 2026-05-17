@@ -57,6 +57,8 @@ Problem (Bab 2) → Gap (Bab 3) → RQ & H (Bab 4) → Metrik (Bab 5) → Sistem
 
 ## Template A.8 — Integration Checklist
 
+```
+
 PROPOSAL INTEGRATION CHECKLIST
 
 Koneksi Vertikal (Flow Atas-Bawah):
@@ -71,6 +73,8 @@ Koneksi Horizontal (Konsistensi):
   [x] Istilah sama di semua bagian
   [x] Variabel di RQ = variabel di hipotesis = metrik di desain
   [x] Scope tidak berubah dari masalah ke eksperimen
+
+```
 
 Rubrik Self-Assessment:
 | Kriteria | 1 (Lemah) | 2 (Cukup) | 3 (Baik) | Skor |
@@ -88,13 +92,13 @@ Kumpulkan hasil dari WS-02 sampai WS-07 menjadi satu ringkasan proposal.
 
 | Komponen | Sumber | Isi (1-2 kalimat) |
 |----------|--------|-------------------|
-| Problem Statement | WS-02 | *Contoh: Sistem rekomendasi memiliki akurasi tinggi (RMSE 0.87) tetapi satisfaction score rendah (45/100). Gap antara metrik teknis dan kepuasan pengguna belum diteliti.* |
-| Gap | WS-03 | *Contoh: Tidak ada studi yang mengintegrasikan collaborative filtering dengan user-context signals untuk meningkatkan satisfaction.* |
-| RQ | WS-04 | *Contoh: Apakah penambahan context-aware signals pada collaborative filtering meningkatkan satisfaction score tanpa menurunkan RMSE?* |
-| Hipotesis | WS-04 | *Contoh: H₁: Sistem CF+context menghasilkan satisfaction ≥ 70/100 dengan RMSE ≤ 0.90 dibanding baseline CF murni.* |
-| Variabel & Metrik | WS-05 | *Contoh: IV = jenis sistem (CF vs CF+context); DV = satisfaction score (skala 0-100) + RMSE (regresi).* |
-| Sistem | WS-06 | |
-| Desain Eksperimen | WS-07 | |
+| Problem Statement | WS-02 | Algoritma rekomendasi pariwisata saat ini (User-Based CF) mengalami context-blindness, yaitu merekomendasikan tempat murni dari kemiripan rating tanpa mempedulikan jarak fisik wisatawan atau jam operasional wisata. |
+| Gap | WS-03 | Literatur SOTA pariwisata lokal (Cholil dkk., 2023) hanya mengandalkan matriks historis dan secara eksplisit menyebutkan pengabaian faktor geospasial serta temporal sebagai future work (Method & Context Gap). |
+| RQ | WS-04 | Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based CF mampu menghasilkan skor MAE yang lebih rendah dibandingkan User-Based CF standar pada dataset pariwisata Semarang? |
+| Hipotesis | WS-04 | H₁: Sistem Context-Aware User-Based CF menghasilkan penurunan skor MAE yang signifikan secara statistik (minimal 10%) dibandingkan baseline User-Based CF murni. |
+| Variabel & Metrik | WS-05 | IV = Jenis Algoritma (Context-Aware vs Standar); DV = Tingkat Kesalahan Prediksi (Prediction Error) yang diukur dengan metrik MAE dan RMSE. |
+| Sistem | WS-06 | Arsitektur modular Python yang memisahkan Recommendation Engine (memungkinkan toggle on/off fitur jarak/waktu) dan Evaluation Logger berbasis parameter config.yaml. |
+| Desain Eksperimen | WS-07 | Comparison Study (Treatment vs Control) menggunakan dataset identik, divalidasi dengan K-Fold Cross Validation (K=5) dan uji signifikansi Paired Sample T-Test. |
 
 ---
 
@@ -104,19 +108,22 @@ Verifikasi 6 koneksi kritis. Isi dengan merujuk tabel di Latihan 1.
 
 | Koneksi | Status | Bukti |
 |---------|--------|-------|
-| Problem → Gap | *Contoh: ✅ — gap muncul dari 15 paper Bab 3 yang tidak ada yang mengkombinasikan CF + context untuk satisfaction* | |
-| Gap → RQ | *Contoh: ✅ — RQ langsung menanyakan apakah CF+context meningkatkan satisfaction* | |
-| RQ → Hypothesis | *Contoh: ✅ — H₁ memprediksi satisfaction ≥ 70 dengan threshold RMSE ≤ 0.90* | |
-| Hypothesis → Metric | | |
-| Metric → System | | |
-| System → Experiment | | |
+| Problem → Gap | ✅ | Masalah context-blindness divalidasi oleh literatur di Bab 3 yang terbukti masih menggunakan rating murni tanpa filter jarak geografis. |
+| Gap → RQ | ✅ | RQ secara langsung menguji dan mengukur efek perbaikan jika gap geospasial dan temporal tersebut diisi. |
+| RQ → Hypothesis | ✅ | H₁ memprediksi jawaban definitif atas RQ, yaitu terjadinya penurunan nilai error (MAE) secara spesifik (10%). |
+| Hypothesis → Metric | ✅ | Prediksi penurunan error pada hipotesis langsung direpresentasikan dan diukur secara matematis menggunakan rumus MAE. |
+| Metric → System | ✅ | Modul Evaluator Logger pada sistem dirancang spesifik untuk menghitung selisih prediksi dengan aktual dan mencetak skor MAE ke file CSV. |
+| System → Experiment | ✅ | Eksperimen dijalankan dengan melakukan pertukaran parameter IV secara langsung di sistem config.yaml tanpa mengubah kode evaluasi utama. |
 
-**Koneksi mana yang paling lemah?** _______________________
+**Koneksi mana yang paling lemah?** 
+> Hypothesis → Metric
+
 **Bagaimana cara memperkuatnya?**
-> ___________________________________________________
+> Menyadari bahwa penurunan angka MAE (offline test) belum tentu menjamin 100% kepuasan pengguna di dunia nyata (online satisfaction). Cara memperkuatnya adalah dengan membatasi scope claim di proposal: tegaskan bahwa riset ini berfokus pada akurasi prediksi komputasi, bukan pada studi interaksi manusia-komputer (HCI). Tambahkan juga metrik RMSE untuk memastikan sistem tidak melakukan kesalahan tebakan yang fatal.
 
-**Konsistensi horizontal — apakah istilah dan scope konsisten?** [ ] Ya / [ ] Tidak
-> Jika tidak, di bagian mana terjadi inkonsistensi? _________
+**Konsistensi horizontal — apakah istilah dan scope konsisten?** [x] Ya / [ ] Tidak
+> Jika tidak, di bagian mana terjadi inkonsistensi? -
+> (Tidak ada. Seluruh alur konsisten menggunakan istilah Context-Aware CF, metrik MAE, dan lokus data Semarang).
 
 ---
 
@@ -126,15 +133,16 @@ Evaluasi proposal mini menggunakan rubrik.
 
 | Kriteria | Skor (1-3) | Justifikasi |
 |----------|-----------|-------------|
-| Koherensi | *Contoh: 2 — koneksi gap→RQ masih lemah karena gap belum cukup narrow* | |
-| Specificity | *Contoh: 3 — metrik (satisfaction 0-100, RMSE) sudah terdefinisi numerik* | |
-| Feasibility | | |
-| Rigor | | |
+| Koherensi | 3 | Benang merah dari masalah "buta konteks", penemuan gap di paper Cholil, hingga desain eksperimen sangat mulus dan logis. |
+| Specificity | 3 | Variabel dan metrik (MAE, RMSE, K-Fold=5, Ambang Batas 10KM) sudah terdefinisi secara kuantitatif dan tidak ambigu. |
+| Feasibility | 2 | Metodologi logis, namun preprocessing data (membersihkan koordinat latitude/longitude dan jam buka dari Google Maps) butuh effort ekstra. |
+| Rigor | 3 | Desain eksperimen dikontrol sangat ketat dengan pembagian split data yang sama (random state locked) dan diuji secara statistik (T-Test). |
 
-**Skor total:** _____ / 12
+**Skor total:** 11 / 12
 
-**Apakah proposal siap untuk fase eksekusi?** [ ] Ya / [ ] Belum
-> Jika belum, apa yang perlu diperbaiki? __________________
+**Apakah proposal siap untuk fase eksekusi?** [x] Ya / [ ] Belum
+> Jika belum, apa yang perlu diperbaiki? -
+> (Sudah siap dieksekusi ke tahap pencarian dataset dan penyusunan draf kode Python).
 
 ---
 
@@ -142,8 +150,9 @@ Evaluasi proposal mini menggunakan rubrik.
 
 > Dari seluruh proses WS-01 sampai WS-08, bagian mana yang paling mudah dan paling sulit? Mengapa? Apa yang akan dilakukan berbeda jika mengulang dari awal?
 
-**Bagian termudah:** ____________________________________
-**Bagian tersulit:** ____________________________________
+**Bagian termudah:** 
+> Mengisi WS-06 (System-Experiment Mapping) dan WS-05 (Metrics). Karena terbiasa dengan pola pikir logika programming, memetakan sistem menjadi arsitektur modular yang terukur terasa lebih pasti dan terstruktur.
+**Bagian tersulit:** 
+> Mengisi WS-03 (Literature Gap) dan WS-07 (Threats to Validity). Membutuhkan pergeseran mindset yang drastis dari sekadar "ingin membuat aplikasi" menjadi "harus membuktikan bahwa belum ada paper yang melakukan ini persis seperti ini" dan memikirkan segala celah bias eksperimen.
 **Yang akan dilakukan berbeda:**
-> ___________________________________________________
-> ___________________________________________________
+> Jika mengulang dari awal, saya akan mengalokasikan waktu di awal untuk melakukan pra-survei dataset (mengumpulkan sample data eksplorasi (pilot dataset) atau mengecek kemudahan crawling Google Maps API) sebelum merumuskan RQ secara permanen. Hal ini untuk memastikan bahwa data jarak dan waktu riil yang saya butuhkan benar-benar eksis dan bisa ditarik, sehingga nilai kelayakan (feasibility) riset bisa maksimal sejak hari pertama.
