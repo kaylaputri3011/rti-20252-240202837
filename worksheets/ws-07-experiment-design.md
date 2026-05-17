@@ -65,7 +65,7 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 
 ## Template A.7 — Desain Eksperimen Lengkap
 
-```
+
 EXPERIMENT DESIGN
 
 Research Question : Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar pada dataset rating pariwisata Semarang?
@@ -98,7 +98,7 @@ Statistical Plan:
   Justifikasi      : Membandingkan dua nilai rata-rata bersanding (MAE algoritma A vs MAE algoritma B) yang diuji pada potongan data latih/uji (folds) yang sama persis.
   Alpha            : 0.05
   Effect size min  : Penurunan MAE minimal sebesar 10%
-```
+
 
 ---
 
