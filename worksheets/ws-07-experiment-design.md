@@ -108,7 +108,6 @@ Statistical Plan:
   Effect size min  : Penurunan MAE minimal sebesar 10%
 
 ```
-
 ---
 
 ## Latihan 1 — Desain Eksperimen
