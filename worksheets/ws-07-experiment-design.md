@@ -65,40 +65,40 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 
 ## Template A.7 — Desain Eksperimen Lengkap
 
-```
+
 EXPERIMENT DESIGN
 
-Research Question : ____________________
-Hypothesis        : ____________________
-Tipe Eksperimen   : [ ] Comparison  [ ] Ablation  [ ] Parameter
+Research Question : Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar pada dataset rating pariwisata Semarang?
+Hypothesis        : (H₁) Terdapat penurunan skor MAE yang signifikan secara statistik pada algoritma Context-Aware User-Based CF dibandingkan dengan User-Based CF standar.
+Tipe Eksperimen   : [x] Comparison  [ ] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control |           |          |             |
-| Treatment |         |          |             |
+| Control | Algoritma *baseline* tanpa filter konteks (mereplikasi paper Cholil dkk., 2023) | User-Based CF Standar | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
+| Treatment | Algoritma usulan yang menginkorporasikan jarak geografis dan jam buka | Context-Aware User-Based CF | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
 
 Fairness Checklist:
-  [ ] Dataset identik untuk semua kondisi
-  [ ] Preprocessing setara
-  [ ] Tuning effort setara
-  [ ] Environment identik
-  [ ] Metrik evaluasi sama
+  [x] Dataset identik untuk semua kondisi
+  [x] Preprocessing setara
+  [x] Tuning effort setara
+  [x] Environment identik
+  [x] Metrik evaluasi sama
 
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    |                 |          |
-| External    |                 |          |
-| Construct   |                 |          |
-| Conclusion  |                 |          |
+| Internal    | *Data Leakage*: Secara tidak sengaja memasukkan rating masa depan ke data latih. | Menggunakan pembagian data latih/uji (*train/test split*) berbasis dimensi waktu (*time-aware split*). |
+| External    | Karakteristik geografis kota Semarang mungkin terlalu unik, algoritma gagal di kota lain. | Membatasi ruang lingkup klaim hanya pada "pariwisata lokal perkotaan" di dokumen riset. |
+| Construct   | MAE yang rendah mungkin tidak berarti wisatawan puas (*user satisfaction*). | Menambahkan RMSE sebagai metrik sekunder untuk melihat seberapa sering sistem membuat kesalahan fatal (tebakan meleset jauh). |
+| Conclusion  | Ukuran sampel uji terlalu sedikit, hasil MAE terlihat bagus karena kebetulan (*chance*). | Melakukan iterasi *Repeated K-Fold Cross Validation* untuk mendapatkan ukuran sampel uji statistik yang lebih stabil (misal 30 iterasi). |
 
 Statistical Plan:
-  Uji statistik   : ____________________
-  Justifikasi      : ____________________
-  Alpha            : ____________________
-  Effect size min  : ____________________
-```
+  Uji statistik    : Paired Sample T-Test
+  Justifikasi      : Membandingkan dua nilai rata-rata bersanding (MAE algoritma A vs MAE algoritma B) yang diuji pada potongan data latih/uji (folds) yang sama persis.
+  Alpha            : 0.05
+  Effect size min  : Penurunan MAE minimal sebesar 10%
+
 
 ---
 
@@ -106,13 +106,13 @@ Statistical Plan:
 
 Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai WS-06.
 
-**RQ:** __________________________________________________
-**Tipe eksperimen:** [ ] Comparison / [ ] Ablation / [ ] Parameter
+**RQ:** Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based CF mampu menghasilkan skor MAE yang lebih rendah dibandingkan User-Based CF standar pada dataset pariwisata Semarang?
+**Tipe eksperimen:** [x] Comparison / [ ] Ablation / [ ] Parameter
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | *Contoh: RF baseline dari literatur* | *RF* | *Dataset X, 80:20 split, seed 42* |
-| Treatment | | | |
+| Control | Menguji metode baseline klasik dari literatur sebelumnya. | Standard User-Based CF | Dataset Semarang dengan porsi Train/Test 80:20, random_state=42 |
+| Treatment | Menguji metode usulan dengan penambahan bobot jarak dan waktu. | Context-Aware CF | Dataset Semarang dengan porsi Train/Test 80:20, random_state=42 |
 
 ---
 
@@ -122,14 +122,15 @@ Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | *Contoh: ✅ — sama-sama pakai CIC-MalMem-2022* | |
-| Preprocessing setara | | |
-| Tuning effort setara | | |
-| Environment identik | | |
-| Metrik evaluasi sama | | |
+| Dataset identik | ✅ | Kedua algoritma "disuapi" file CSV matriks rating yang sama persis. |
+| Preprocessing setara | ✅ | Penghapusan data sparse dan imputasi data kosong dilakukan satu kali sebelum data masuk ke algoritma mana pun. |
+| Tuning effort setara | ✅ | Kedua algoritma diberikan kesempatan optimasi parameter (GridSearch) dengan rentang percobaan iterasi yang sama. |
+| Environment identik | ✅ | Dijalankan pada laptop/server yang sama dengan spesifikasi hardware (RAM, CPU) dan versi Python yang sama. |
+| Metrik evaluasi sama | ✅ | Sama-sama diukur menggunakan fungsi kalkulasi perhitungan MAE dan RMSE yang sama dari pustaka scikit-learn. |
 
-**Ada yang tidak fair?** [ ] Ya / [ ] Tidak
-> Jika ya, bagaimana cara memperbaikinya? ________________
+**Ada yang tidak fair?** [ ] Ya / [x] Tidak
+> Jika ya, bagaimana cara memperbaikinya? -
+> (Desain eksperimen sudah sangat fair dan terkontrol, mengikuti prinsip apple-to-apple comparison).
 
 ---
 
@@ -139,14 +140,16 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | *Contoh: Data leakage antara train-test* | *Contoh: Gunakan stratified split, validasi tidak ada overlap* |
-| External | | |
-| Construct | | |
-| Conclusion | | |
+| Internal | Kesalahan konfigurasi K-Fold menyebabkan user yang sama berada di train sekaligus test set. | Memastikan algoritma memisahkan data berdasar User-ID, bukan pemotongan baris data acak. |
+| External | Data crawling Google Maps mungkin berisi fake review yang tidak mencerminkan dunia nyata. | Menggunakan filter heuristik untuk membuang user yang memberi puluhan review dalam rentang 1 menit (terindikasi bot). |
+| Construct | Metrik MAE gagal menangkap kasus di mana algoritma merekomendasikan tempat yang tutup. | Memastikan logika algoritma menghukum skor error menjadi maksimal jika memprediksi rating tinggi pada lokasi yang sedang tutup (secara temporal). |
+| Conclusion | Uji parametrik (T-Test) tidak valid karena distribusi selisih error tidak normal. | Melakukan uji normalitas Shapiro-Wilk terlebih dahulu; jika tidak normal, gunakan uji non-parametrik Wilcoxon Signed-Rank Test. |
 
-**Ancaman mana yang paling sulit dimitigasi?** _____________
+**Ancaman mana yang paling sulit dimitigasi?** 
+> External Validity.
+
 **Mengapa?**
-> ___________________________________________________
+> Karena sekuat apa pun algoritma Machine Learning yang kita buat, ia sangat bergantung pada kemurnian data (prinsip Garbage In, Garbage Out). Sangat sulit membedakan secara pasti 100% mana ulasan wisatawan asli yang benar-benar berkunjung, dan mana ulasan dari orang yang dibayar (buzzer) di platform publik. Hal ini membatasi seberapa jauh kita bisa menggeneralisasi hasil eksperimen ini ke populasi dunia nyata.
 
 ---
 
@@ -155,6 +158,6 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 > Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
 
 **Jawaban:**
-1. ___________________________________________________
-2. ___________________________________________________
-3. ___________________________________________________
+1. Apakah baseline yang digunakan adalah State-of-the-Art (metode yang memang kuat/terbaru), atau sekadar straw man (metode usang yang sengaja dipilih agar mudah dikalahkan)?
+2. Apakah peneliti melakukan tuning effort (hyperparameter optimization) yang sama kerasnya untuk baseline, ataukah mereka hanya melakukan tuning pada metode mereka sendiri sementara baseline menggunakan konfigurasi bawaan (default)?
+3. Apakah performa unggul tersebut konsisten jika diuji pada dataset yang berbeda (external validity), atau algoritma tersebut hanya menghafal (overfitting) pada satu dataset spesifik yang menguntungkan metode mereka?
