@@ -65,12 +65,14 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 
 ## Template A.7 — Desain Eksperimen Lengkap
 
-
+```
 EXPERIMENT DESIGN
 
 Research Question : Sejauh mana integrasi variabel Context-Aware (jarak dan waktu) pada algoritma User-Based Collaborative Filtering mampu menghasilkan skor Mean Absolute Error (MAE) yang lebih rendah dibandingkan performa User-Based CF standar pada dataset rating pariwisata Semarang?
 Hypothesis        : (H₁) Terdapat penurunan skor MAE yang signifikan secara statistik pada algoritma Context-Aware User-Based CF dibandingkan dengan User-Based CF standar.
 Tipe Eksperimen   : [x] Comparison  [ ] Ablation  [ ] Parameter
+
+```
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
@@ -78,12 +80,16 @@ Kondisi Eksperimen:
 | Control | Algoritma *baseline* tanpa filter konteks (mereplikasi paper Cholil dkk., 2023) | User-Based CF Standar | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
 | Treatment | Algoritma usulan yang menginkorporasikan jarak geografis dan jam buka | Context-Aware User-Based CF | Dataset Semarang, K-Fold=5, Random Seed=42, Parameter tetangga (K)=20 |
 
+```
+
 Fairness Checklist:
   [x] Dataset identik untuk semua kondisi
   [x] Preprocessing setara
   [x] Tuning effort setara
   [x] Environment identik
   [x] Metrik evaluasi sama
+
+  ```
 
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
@@ -93,12 +99,15 @@ Threat Analysis:
 | Construct   | MAE yang rendah mungkin tidak berarti wisatawan puas (*user satisfaction*). | Menambahkan RMSE sebagai metrik sekunder untuk melihat seberapa sering sistem membuat kesalahan fatal (tebakan meleset jauh). |
 | Conclusion  | Ukuran sampel uji terlalu sedikit, hasil MAE terlihat bagus karena kebetulan (*chance*). | Melakukan iterasi *Repeated K-Fold Cross Validation* untuk mendapatkan ukuran sampel uji statistik yang lebih stabil (misal 30 iterasi). |
 
+```
+
 Statistical Plan:
   Uji statistik    : Paired Sample T-Test
   Justifikasi      : Membandingkan dua nilai rata-rata bersanding (MAE algoritma A vs MAE algoritma B) yang diuji pada potongan data latih/uji (folds) yang sama persis.
   Alpha            : 0.05
   Effect size min  : Penurunan MAE minimal sebesar 10%
 
+```
 
 ---
 
