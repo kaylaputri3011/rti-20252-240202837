@@ -152,7 +152,9 @@ Evaluasi proposal mini menggunakan rubrik.
 
 **Bagian termudah:** 
 > Mengisi WS-06 (System-Experiment Mapping) dan WS-05 (Metrics). Karena terbiasa dengan pola pikir logika programming, memetakan sistem menjadi arsitektur modular yang terukur terasa lebih pasti dan terstruktur.
+
 **Bagian tersulit:** 
 > Mengisi WS-03 (Literature Gap) dan WS-07 (Threats to Validity). Membutuhkan pergeseran mindset yang drastis dari sekadar "ingin membuat aplikasi" menjadi "harus membuktikan bahwa belum ada paper yang melakukan ini persis seperti ini" dan memikirkan segala celah bias eksperimen.
+
 **Yang akan dilakukan berbeda:**
 > Jika mengulang dari awal, saya akan mengalokasikan waktu di awal untuk melakukan pra-survei dataset (mengumpulkan sample data eksplorasi (pilot dataset) atau mengecek kemudahan crawling Google Maps API) sebelum merumuskan RQ secara permanen. Hal ini untuk memastikan bahwa data jarak dan waktu riil yang saya butuhkan benar-benar eksis dan bisa ditarik, sehingga nilai kelayakan (feasibility) riset bisa maksimal sejak hari pertama.
