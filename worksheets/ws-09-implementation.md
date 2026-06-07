@@ -63,32 +63,42 @@ Capai **repeatability** dulu, baru **reproducibility**.
 EXPERIMENT SETUP DOCUMENTATION
 
 Hardware:
-  CPU     : ____________________
-  RAM     : ____________________
-  GPU     : ____________________
-  Storage : ____________________
+  CPU     : AMD Ryzen 5 7535HS with Radeon Graphics (3.30 GHz)
+  RAM     : 8,00 GB (7,21 GB usable)
+  GPU     : AMD Radeon RX 6550M (4 GB)
+            AMD Radeon(TM) 660M (483 MB)
+  Storage : 349 GB of 477 GB used
 
 Software:
-  OS        : ____________________
-  Runtime   : ____________________
-  Framework : ____________________
+  OS        : Windows 11 Pro
+  Runtime   : Python 3.10.12
+  Framework : Scikit-learn
+
+  ```
+
 
 Dependencies:
 | Library | Version | Sumber | Hash/Checksum |
 |---------|---------|--------|---------------|
-|         |         |        |               |
-|         |         |        |               |
+|    pandas     |   2.1.0      |    PyPI    |       (otomatis via pip)        |
+|   numpy      |   1.26.0      |    PyPI    |     (otomatis via pip)         |
+|  scikit-learn  |    1.3.0   |     PyPI    |     (otomatis via pip)     |
+|    haversine    |    2.8.0   |   PyPI    |     (otomatis via pip)    |
+|    pyyaml    |     6.0.1    |    PyPI    |     (otomatis via pip)     |
+
+
+```
 
 Konfigurasi:
-  Config file     : ____________________
-  Random seed     : ____________________
-  Hyperparameters : ____________________
+  Config file     : config.yaml
+  Random seed     : 42
+  Hyperparameters : K_neighbors=20, max_radius_km=10
 
 Reproducibility Check:
-  [ ] Dependency terdokumentasi (requirements.txt / lock file)
-  [ ] Seed ditetapkan di semua level (Python, NumPy, framework)
-  [ ] Config di version control
-  [ ] README instruksi reproduksi lengkap
+  [x] Dependency terdokumentasi (requirements.txt / lock file)
+  [x] Seed ditetapkan di semua level (Python, NumPy, framework)
+  [x] Config di version control
+  [x] README instruksi reproduksi lengkap
 ```
 
 ---
@@ -99,23 +109,24 @@ Dokumentasikan environment untuk eksperimen Anda (boleh environment saat ini ata
 
 | Komponen | Spesifikasi |
 |----------|------------|
-| CPU | *Contoh: Intel Core i7-12700H, 14 Core* |
-| RAM | *Contoh: 32 GB DDR5* |
-| GPU | *Contoh: NVIDIA RTX 3060 6GB / CPU-only jika tidak ada GPU* |
-| OS | *Contoh: Ubuntu 22.04 LTS / Windows 11* |
-| Runtime | |
-| Framework | |
-| Random Seed | |
+| CPU | AMD Ryzen 5 7535HS with Radeon Graphics (3.30 GHz) |
+| RAM | 8,00 GB (7,21 GB usable) |
+| GPU | AMD Radeon RX 6550M (4 GB)
+AMD Radeon(TM) 660M (483 MB) |
+| OS | Windows 11 Pro |
+| Runtime | Python 3.10.12 |
+| Framework | Scikit-learn |
+| Random Seed | 42 |
 
 **Dependencies (minimal 5):**
 
 | Library | Version | Alasan Dibutuhkan |
 |---------|---------|-------------------|
-| *Contoh: scikit-learn* | *1.3.2* | *Klasifikasi + evaluasi metrik* |
-| | | |
-| | | |
-| | | |
-| | | |
+| pandas | 2.1.0 | Manipulasi dataset dari file CSV, pembersihan data kosong. |
+| numpy | 1.26.0 | Kalkulasi operasi matriks berkecepatan tinggi untuk perhitungan rating. |
+| scikit-learn | 1.3.0 | Membagi data latih/uji dengan K-Fold dan menghitung metrik MAE/RMSE. |
+| haversine | 2.8.0 | Mengkalkulasi jarak geospasial aktual (dalam KM) antara koordinat wisatawan dan destinasi. |
+| pyyaml | 6.0.1 | Memisahkan parameter pengaturan (seperti batas K) ke luar kode agar terhindar dari hardcoding. |
 
 ---
 
@@ -125,18 +136,18 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 
 | Run | Seed | Metrik Utama | Hasil Sama? |
 |-----|------|-------------|-------------|
-| 1 | *Contoh: 42* | *Contoh: Accuracy* | — |
-| 2 | | | [ ] Ya / [ ] Tidak |
-| 3 | | | [ ] Ya / [ ] Tidak |
+| 1 | 42 | Skor MAE | — |
+| 2 | 42 | Skor MAE | [x] Ya / [ ] Tidak |
+| 3 | 42 | Skor MAE | [x] Ya / [ ] Tidak |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
-> ___________________________________________________
+> Lupa menetapkan random_state=42 pada fungsi K-Fold split, atau menggunakan tipe data set / dictionary bawaan Python yang urutan iterasinya bisa berubah-ubah setiap kali script dijalankan. Bisa juga karena data baru tidak sengaja ter-load jika API ditarik secara real-time alih-alih membaca dari CSV lokal.
 
 **Checklist kontrol yang sudah diterapkan:**
-- [ ] Random seed di-set di semua level
-- [ ] Tidak ada background process yang mengganggu
-- [ ] Cache dibersihkan antar-run
-- [ ] Config file yang sama untuk semua run
+- [x] Random seed di-set di semua level
+- [x] Tidak ada background process yang mengganggu
+- [x] Cache dibersihkan antar-run
+- [x] Config file yang sama untuk semua run
 
 ---
 
@@ -145,25 +156,32 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 ```
-# Judul Eksperimen: ____________________
+# Judul Eksperimen: Eksperimen Evaluasi Akurasi Context-Aware CF Pariwisata Semarang
 
 ## 1. Environment
-> (Salin spesifikasi dari Latihan 1)
+> OS: Windows 11 Home
+Runtime: Python 3.10.12
+Hardware: Laptop MSI Bravo 15 B7E (AMD Ryzen 5, RAM 16GB DDR5).
 
 ## 2. Installation
-> (Langkah instalasi, misal: "pip install -r requirements.txt")
+> `pip install -r requirements.txt`
 
 ## 3. Data
-> (Deskripsi data: sumber, format, ukuran)
+> File `master_wisata_semarang.csv` (berada di folder `/data`). 
 
 ## 4. Execution
-> (Command untuk menjalankan eksperimen)
+> Eksekusi pengujian komparatif dengan menjalankan perintah:
+`python src/run_experiment.py --config config.yaml`
 
 ## 5. Configuration
-> (File config yang digunakan + parameter kunci)
+> Eksperimen diatur melalui `config.yaml`. Parameter kunci yang dipakai:
+- random_seed: 42
+- k_folds: 5
+- neighbors_k: 20
+- distance_threshold_km: 10
 
 ## 6. Expected Output
-> (Contoh output yang diharapkan + format)
+> Terminal akan menampilkan progress bar K-Fold. Setelah selesai, program akan menghasilkan file `results/evaluation_metrics.csv` yang memuat tabel komparasi skor MAE dan RMSE antara Baseline (Standard CF) dan Intervensi (Context-Aware CF).
 ```
 
 ---
@@ -172,6 +190,6 @@ Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 > Apakah eksperimen Anda saat ini bisa direproduksi oleh orang lain tanpa bantuan Anda? Komponen apa yang masih hilang?
 
-**Level saat ini:** [ ] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
+**Level saat ini:** [x] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
 **Komponen yang belum terdokumentasi:**
-> ___________________________________________________
+> Penggunaan virtual environment (venv). Saat ini script masih berjalan lancar di komputer sendiri (repeatable), tapi rawan error versi library jika dijalankan di komputer orang lain karena file requirements.txt belum di-generate secara bersih dan masih tercampur dengan library dari mata kuliah/proyek Python lainnya.
