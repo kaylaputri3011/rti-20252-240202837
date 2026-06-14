@@ -122,7 +122,7 @@ AMD Radeon(TM) 660M (483 MB) |
 
 | Library | Version | Alasan Dibutuhkan |
 |---------|---------|-------------------|
-| pandas | 2.1.0 | Manipulasi dataset dari file CSV, pembersihan data kosong. |
+| pandas | 2.1.0 | Manipulasi dataset CSV hasil scraping apify, pembersihan data kosong. |
 | numpy | 1.26.0 | Kalkulasi operasi matriks berkecepatan tinggi untuk perhitungan rating. |
 | scikit-learn | 1.3.0 | Membagi data latih/uji dengan K-Fold dan menghitung metrik MAE/RMSE. |
 | haversine | 2.8.0 | Mengkalkulasi jarak geospasial aktual (dalam KM) antara koordinat wisatawan dan destinasi. |
@@ -141,7 +141,7 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 | 3 | 42 | Skor MAE | [x] Ya / [ ] Tidak |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
-> Lupa menetapkan random_state=42 pada fungsi K-Fold split, atau menggunakan tipe data set / dictionary bawaan Python yang urutan iterasinya bisa berubah-ubah setiap kali script dijalankan. Bisa juga karena data baru tidak sengaja ter-load jika API ditarik secara real-time alih-alih membaca dari CSV lokal.
+> Lupa menetapkan random_state=42 pada fungsi K-Fold split, atau menggunakan tipe data set / dictionary bawaan Python yang urutan iterasinya bisa berubah-ubah setiap kali script dijalankan.
 
 **Checklist kontrol yang sudah diterapkan:**
 - [x] Random seed di-set di semua level
@@ -159,15 +159,16 @@ Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 # Judul Eksperimen: Eksperimen Evaluasi Akurasi Context-Aware CF Pariwisata Semarang
 
 ## 1. Environment
-> OS: Windows 11 Home
+> OS: Windows 11 pro
 Runtime: Python 3.10.12
-Hardware: Laptop MSI Bravo 15 B7E (AMD Ryzen 5, RAM 16GB DDR5).
+Hardware: Laptop MSI Bravo 15 B7E (AMD Ryzen 5, RAM 8,00 GB (7,21 GB usable)).
 
 ## 2. Installation
 > `pip install -r requirements.txt`
 
 ## 3. Data
-> File `master_wisata_semarang.csv` (berada di folder `/data`). 
+> File dataset hasil scraping Google Maps menggunakan Apify (disimpan sebagai `dataset_semarang_real.csv` di folder `/data`). 
+Berisi ribuan baris ulasan riil dengan kolom utama yang sudah dibersihkan: reviewerName (UserID), title (ItemID), stars (Rating), location/lat, location/lng, dan publishedAtDate (Timestamp).
 
 ## 4. Execution
 > Eksekusi pengujian komparatif dengan menjalankan perintah:
@@ -192,4 +193,4 @@ Hardware: Laptop MSI Bravo 15 B7E (AMD Ryzen 5, RAM 16GB DDR5).
 
 **Level saat ini:** [x] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
 **Komponen yang belum terdokumentasi:**
-> Penggunaan virtual environment (venv). Saat ini script masih berjalan lancar di komputer sendiri (repeatable), tapi rawan error versi library jika dijalankan di komputer orang lain karena file requirements.txt belum di-generate secara bersih dan masih tercampur dengan library dari mata kuliah/proyek Python lainnya.
+> Penggunaan virtual environment (venv). Saat ini script masih berjalan lancar di komputer sendiri (repeatable), tapi rawan error versi library jika dijalankan di komputer orang lain karena file requirements.txt belum di-generate secara bersih. Selain itu, jalur baca file dataset perlu diubah menjadi relative path agar siapapun yang mencoba menjalankan script ini tidak perlu mengubah kode lokasi filenya.
