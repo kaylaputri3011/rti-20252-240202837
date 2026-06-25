@@ -10,6 +10,8 @@
 
 Tujuan implementasi riset bukan membuat software yang berfungsi, melainkan membangun **instrumen pengukuran yang konsisten**. Setiap modul harus di-mapping ke variabel (dari Bab 6), parameter harus config-driven, dan logging aktif dari hari pertama.
 
+> **Mengapa reproducibility penting?** Sains dibangun di atas prinsip verifikasi — temuan harus bisa dikonfirmasi oleh peneliti lain. _Replicability crisis_ yang terjadi di banyak paper riset ML/AI disebabkan oleh environment tidak terdokumentasi: orang lain tidak bisa reproduksi, hasil diragukan, kepercayaan terhadap temuan hilang. Prinsip: **dokumentasi environment = snapshot kredibilitas riset Anda.**
+
 ### Reproducible Implementation Model
 
 ```
@@ -47,7 +49,15 @@ Capai **repeatability** dulu, baru **reproducibility**.
 1. Menunda environment setup → bug sulit dilacak
 2. Tidak pakai version control → hasil tidak bisa direkonstruksi
 3. Menolak Docker/container → "di laptop saya bisa" saat review
+   - **Docker** = teknologi container yang "membungkus" aplikasi beserta seluruh dependency-nya dalam satu unit terisolasi. Hasilnya: kode berjalan identik di laptop, server, maupun reviewer lain. Intro singkat: `docker run -v $(pwd):/workspace environment-image python run_experiment.py`
 4. 3× hasil sama ≠ repeatable (bisa cache/state tersimpan)
+
+### Dependency Locking
+
+Mengandalkan "install library terbaru" berbahaya: versi berbeda = perilaku berbeda = hasil tidak reproducible. Praktik:
+- **Python**: buat `requirements.txt` dengan versi eksplisit: `scikit-learn==1.3.2`, lalu kunci dengan `pip freeze > requirements.txt`
+- **Conda**: gunakan `conda env export > environment.yml` untuk snapshot lengkap
+- **Node.js/R/Julia**: gunakan `package-lock.json` / `renv.lock` / `Project.toml` — semua fungsi serupa: lock versi + hash
 
 ### Istilah Penting
 
@@ -141,7 +151,14 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 | 3 | 42 | Skor MAE | [x] Ya / [ ] Tidak |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
-> Lupa menetapkan random_state=42 pada fungsi K-Fold split, atau menggunakan tipe data set / dictionary bawaan Python yang urutan iterasinya bisa berubah-ubah setiap kali script dijalankan.
+
+> Penyebab umum non-repeatability:
+> - **Thermal throttling** — CPU/GPU overheating pada run berturut-turut → clock speed turun → waktu eksekusi berubah
+> - **Background process** — antivirus scan, update OS, atau cloud sync aktif saat run berlangsung
+> - **Cache dari run sebelumnya** — hasil tersimpan di memori/disk sehingga run berikutnya tidak menjalankan komputasi penuh
+> - **Random state tidak dikontrol di semua level** — Python seed di-set, tapi NumPy/PyTorch/TensorFlow punya seed independen
+
+> Kesimpulan: Karena eksperimen ini membagi dataset dengan teknik K-Fold dan menggunakan operasi matriks NumPy, penyebab utama nilai MAE berubah-ubah (non-repeatable) hampir dipastikan karena `random_state` tidak dikunci (seed tidak di-set) saat memanggil fungsi K-Fold dari Scikit-learn, sehingga urutan data yang dilatih berubah pada setiap proses run.
 
 **Checklist kontrol yang sudah diterapkan:**
 - [x] Random seed di-set di semua level
