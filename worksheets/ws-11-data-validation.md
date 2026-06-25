@@ -66,30 +66,31 @@ Jika gagal di langkah awal → tidak perlu lanjut.
 DATA VALIDATION CHECKLIST
 
 Completeness:
-  [ ] Semua skenario tercakup
-  [ ] Jumlah run sesuai rencana
-  [ ] Tidak ada file output hilang
-  Missing: ____ dari ____ data points
+  [x] Semua skenario tercakup
+  [x] Jumlah run sesuai rencana
+  [x] Tidak ada file output hilang
+  Missing: 0 dari 10 data points
 
 Format Consistency:
-  [ ] Semua file format sama (CSV/JSON/...)
-  [ ] Header konsisten
-  [ ] Tipe data konsisten (numerik tetap numerik)
+  [x] Semua file format sama (CSV)
+  [x] Header konsisten
+  [x] Tipe data konsisten (numerik tetap numerik)
 
 Range & Logic:
-  [ ] Nilai dalam range masuk akal
-  [ ] Tidak ada waktu negatif
-  [ ] Metrik 0–100%, tidak di luar range
-  Anomali ditemukan: ____________________
+  [x] Nilai dalam range masuk akal (Metrik Error MAE/RMSE harus positif dan masuk akal)
+  [x] Tidak ada waktu negatif pada durasi eksekusi
+  [x] Metrik tidak di luar range skala 1-5
+  Anomali ditemukan: Ada 1 simulasi anomali pada Run 4 (Skor Error terlalu kecil secara tidak wajar).
 
 Cross-Validation:
-  [ ] Run identik → hasil mendekati
-  [ ] Trend konsisten dengan ekspektasi teori
+  [x] Run identik → hasil mendekati
+  [x] Trend konsisten dengan ekspektasi teori
 
 Keputusan:
-  [ ] Data siap analisis
+  [x] Data siap analisis
   [ ] Perlu cleaning
   [ ] Perlu re-run (skenario: ____)
+
 ```
 
 ---
@@ -98,17 +99,15 @@ Keputusan:
 
 Verifikasi apakah semua data yang direncanakan sudah terkumpul.
 
-| Skenario | Run Direncanakan | Run Tercatat | Missing | Alasan |
-|----------|-----------------|-------------|---------|--------|
-| *Contoh: BERT, DS-1* | *10* | *10* | *0* | *—* |
-| *LSTM, DS-3* | *10* | *8* | *2* | *OOM pada run 7 & 9* |
-| | | | | |
-| | | | | |
+| Skenario                      | Run Direncanakan | Run Tercatat | Missing | Alasan |
+|-------------------------------|------------------|--------------|---------|--------|
+| Baseline (Standard CF)        | 5                | 5            | 0       | Eksekusi berjalan lancar tanpa OOM |
+| Intervensi (Context-Aware CF) | 5                | 5            | 0       | Eksekusi berjalan lancar tanpa OOM |
 
-**Total expected:** ____ | **Total actual:** ____ | **Missing:** ____
+**Total expected:** 10 | **Total actual:** 10 | **Missing:** 0
 
 **Keputusan untuk data missing:**
-> ___________________________________________________
+> Karena tidak ada data yang *missing* (0), proses dapat langsung dilanjutkan ke tahap deteksi anomali pada skor metrik hasil eksperimen.
 
 ---
 
@@ -116,27 +115,27 @@ Verifikasi apakah semua data yang direncanakan sudah terkumpul.
 
 Periksa data Anda untuk anomali. Gunakan metode IQR atau z-score.
 
-**Dataset sampel (atau data Anda sendiri):**
+**Dataset sampel (Simulasi Skor MAE dari 5 Run Baseline):**
 
-| Run | Accuracy (%) |
-|-----|-------------|
-| 1 | *91.2* |
-| 2 | *90.8* |
-| 3 | *91.5* |
-| 4 | *78.3* |
-| 5 | *91.0* |
+| Run | MAE Score |
+|-----|-----------|
+| 1   | 0.85      |
+| 2   | 0.87      |
+| 3   | 0.86      |
+| 4   | **0.21** |
+| 5   | 0.88      |
 
 **Deteksi outlier:**
-- Q1 = ____ | Q3 = ____ | IQR = ____
-- Batas bawah (Q1 - 1.5×IQR) = ____
-- Batas atas (Q3 + 1.5×IQR) = ____
-- Outlier terdeteksi: ____
+- Q1 = 0.85 | Q3 = 0.87 | IQR = 0.02
+- Batas bawah (Q1 - 1.5×IQR) = 0.82
+- Batas atas (Q3 + 1.5×IQR) = 0.90
+- Outlier terdeteksi: **Run 4 (0.21)**
 
 **Investigasi (untuk setiap outlier):**
 
-| Outlier | Nilai | Kemungkinan Penyebab | Keputusan |
-|---------|-------|---------------------|-----------|
-| *Run 4* | *78.3* | *Contoh: thermal throttling setelah 3 run berturut* | *Re-run dengan cooling interval* |
+| Outlier | Nilai | Kemungkinan Penyebab                                                                                             | Keputusan                                                                                                                                   |
+|---------|-------|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| Run 4   | 0.21  | Skor *error* (MAE) tiba-tiba sangat kecil secara tidak wajar. Kemungkinan terjadi *data leakage* (data uji ikut masuk ke data latih). | Telusuri indeks *train_test_split* pada *seed* tersebut. Jika benar terbukti *data leakage*, perbaiki pembagian data, lalu *re-run*. |
 
 ---
 
@@ -144,12 +143,12 @@ Periksa data Anda untuk anomali. Gunakan metode IQR atau z-score.
 
 Buat laporan validasi ringkas untuk dataset eksperimen Anda.
 
-**1. Completeness:** ____% data terkumpul
-**2. Format:** [ ] Konsisten / [ ] Ada inkonsistensi: ____
-**3. Range check (anomali):** ____
-**4. Logic check:** [ ] Parameter sesuai plan / [ ] Ada ketidaksesuaian: ____
+**1. Completeness:** 100% data terkumpul (10 dari 10 log)
+**2. Format:** [x] Konsisten / [ ] Ada inkonsistensi: -
+**3. Range check (anomali):** Skor MAE/RMSE dipastikan masuk akal dan berada pada batas toleransi skala bintang 1-5.
+**4. Logic check:** [x] Parameter sesuai plan / [ ] Ada ketidaksesuaian: -
 
-**Kesimpulan:** [ ] Data siap analisis / [ ] Perlu tindakan: ____
+**Kesimpulan:** [x] Data siap analisis / [ ] Perlu tindakan: -
 
 ---
 
@@ -157,5 +156,7 @@ Buat laporan validasi ringkas untuk dataset eksperimen Anda.
 
 > Apa perbedaan antara "data yang benar" dan "data yang dipercaya"? Mengapa proses validasi formal diperlukan meskipun data dikumpulkan secara otomatis?
 
-> ___________________________________________________
-> ___________________________________________________
+**Jawaban:**
+> "Data yang benar" sekadar merujuk pada angka yang berhasil direkam oleh sistem tanpa adanya *error* (seperti nilai MAE 0.21 pada Latihan 2). Namun, angka tersebut belum tentu menjadi "data yang dipercaya" sebelum divalidasi. Data baru bisa dipercaya jika angkanya masuk akal, tidak melanggar batasan logika, dan konsisten dengan teori.
+> 
+> Proses validasi formal sangat penting meskipun menggunakan *script* otomatis (seperti Python), karena mesin tidak tahu konteks penelitian kita. *Script* yang berjalan mulus tanpa pesan *error* bisa jadi sebenarnya menyimpan *bug* logika matematis atau *data leakage* yang membuat hasilnya bias secara diam-diam.
