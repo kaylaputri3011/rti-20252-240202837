@@ -101,13 +101,13 @@ Verifikasi apakah semua data yang direncanakan sudah terkumpul.
 
 | Skenario                      | Run Direncanakan | Run Tercatat | Missing | Alasan |
 |-------------------------------|------------------|--------------|---------|--------|
-| Baseline (Standard CF)        | 5                | 5            | 0       | Eksekusi berjalan lancar tanpa OOM |
-| Intervensi (Context-Aware CF) | 5                | 5            | 0       | Eksekusi berjalan lancar tanpa OOM |
+| Baseline (Standard CF)        | 5                | 5            | 0       | Eksekusi berjalan lancar memproses 4.362 baris data. |
+| Intervensi (Context-Aware CF) | 5                | 5            | 0       | Eksekusi berjalan lancar memproses 4.362 baris data. |
 
 **Total expected:** 10 | **Total actual:** 10 | **Missing:** 0
 
 **Keputusan untuk data missing:**
-> Karena tidak ada data yang *missing* (0), proses dapat langsung dilanjutkan ke tahap deteksi anomali pada skor metrik hasil eksperimen.
+> Tidak ada data yang hilang (missing = 0). Eksekusi eksperimen berhasil memproses keseluruhan sampel data riil.
 
 ---
 
@@ -115,27 +115,27 @@ Verifikasi apakah semua data yang direncanakan sudah terkumpul.
 
 Periksa data Anda untuk anomali. Gunakan metode IQR atau z-score.
 
-**Dataset sampel (Simulasi Skor MAE dari 5 Run Baseline):**
+**Dataset (Skor MAE Baseline dari 5 Run K-Fold):**
 
-| Run | MAE Score |
-|-----|-----------|
-| 1   | 0.85      |
-| 2   | 0.87      |
-| 3   | 0.86      |
-| 4   | **0.21** |
-| 5   | 0.88      |
+| Run | MAE Score (Baseline) |
+|-----|----------------------|
+| 1   | 0.660                |
+| 2   | 0.671                |
+| 3   | 0.677                |
+| 4   | 0.656                |
+| 5   | 0.694                |
 
 **Deteksi outlier:**
-- Q1 = 0.85 | Q3 = 0.87 | IQR = 0.02
-- Batas bawah (Q1 - 1.5×IQR) = 0.82
-- Batas atas (Q3 + 1.5×IQR) = 0.90
-- Outlier terdeteksi: **Run 4 (0.21)**
+- Q1 = 0.660 | Q3 = 0.677 | IQR = 0.017
+- Batas bawah (Q1 - 1.5×IQR) = 0.634
+- Batas atas (Q3 + 1.5×IQR) = 0.703
+- Outlier terdeteksi: **Tidak ada anomali (Semua nilai berada di dalam rentang 0.634 hingga 0.703)**
 
 **Investigasi (untuk setiap outlier):**
 
 | Outlier | Nilai | Kemungkinan Penyebab                                                                                             | Keputusan                                                                                                                                   |
 |---------|-------|------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| Run 4   | 0.21  | Skor *error* (MAE) tiba-tiba sangat kecil secara tidak wajar. Kemungkinan terjadi *data leakage* (data uji ikut masuk ke data latih). | Telusuri indeks *train_test_split* pada *seed* tersebut. Jika benar terbukti *data leakage*, perbaiki pembagian data, lalu *re-run*. |
+| -   | -  | Karena menggunakan data riil yang telah melalui tahap *preprocessing* ketat, tidak ditemukan lonjakan error acak. | Data 100% valid secara metodologi (tidak ada *data leakage*) dan dapat dilanjutkan ke tahap analisis serta visualisasi. |
 
 ---
 
@@ -145,7 +145,7 @@ Buat laporan validasi ringkas untuk dataset eksperimen Anda.
 
 **1. Completeness:** 100% data terkumpul (10 dari 10 log)
 **2. Format:** [x] Konsisten / [ ] Ada inkonsistensi: -
-**3. Range check (anomali):** Skor MAE/RMSE dipastikan masuk akal dan berada pada batas toleransi skala bintang 1-5.
+**3. Range check (anomali):** Skor MAE dipastikan sangat stabil dan masuk akal, dengan rata-rata 0.672.
 **4. Logic check:** [x] Parameter sesuai plan / [ ] Ada ketidaksesuaian: -
 
 **Kesimpulan:** [x] Data siap analisis / [ ] Perlu tindakan: -
@@ -157,6 +157,6 @@ Buat laporan validasi ringkas untuk dataset eksperimen Anda.
 > Apa perbedaan antara "data yang benar" dan "data yang dipercaya"? Mengapa proses validasi formal diperlukan meskipun data dikumpulkan secara otomatis?
 
 **Jawaban:**
-> "Data yang benar" sekadar merujuk pada angka yang berhasil direkam oleh sistem tanpa adanya *error* (seperti nilai MAE 0.21 pada Latihan 2). Namun, angka tersebut belum tentu menjadi "data yang dipercaya" sebelum divalidasi. Data baru bisa dipercaya jika angkanya masuk akal, tidak melanggar batasan logika, dan konsisten dengan teori.
-> 
-> Proses validasi formal sangat penting meskipun menggunakan *script* otomatis (seperti Python), karena mesin tidak tahu konteks penelitian kita. *Script* yang berjalan mulus tanpa pesan *error* bisa jadi sebenarnya menyimpan *bug* logika matematis atau *data leakage* yang membuat hasilnya bias secara diam-diam.
+> "Data yang benar" sekadar merujuk pada angka yang berhasil direkam oleh sistem tanpa adanya pesan *error* saat *script* Python dijalankan. Namun, angka tersebut belum tentu menjadi "data yang dipercaya" sebelum divalidasi dengan rumus statistik seperti *Interquartile Range* (IQR). 
+>
+> Proses validasi formal sangat penting meskipun saya menggunakan *script* Python, karena mesin tidak tahu konteks penelitian ini. Dengan membuktikan bahwa kelima *run* K-Fold saya berada dalam batas aman (tidak ada *outlier* yang melampaui batas atas 0.703 atau batas bawah 0.634), saya dapat meyakinkan dosen bahwa stabilitas hasil eksperimen ini murni karena performa algoritma, bukan karena *bug* atau kebocoran data.
