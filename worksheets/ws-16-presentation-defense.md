@@ -82,36 +82,40 @@ Prediksi pertanyaan berdasarkan kategori:
 
 ## Template A.16 — Defense Preparation Sheet
 
-```
 DEFENSE PREPARATION
 
 Slide Deck Plan:
-  Total slides   : ____ (target: 10-12 konten + title/closing)
-  Time per slide : ~2 min
-  Total time     : ____ menit
+  Total slides   : ____ (target: 10-12 Slide Deck Plan:
+  Total slides   : 9 slides utama + 1 Title + 1 Closing (Total 11)
+  Time per slide : ~1.5 menit
+  Total time     : 15 menit
 
 Slide Outline:
 | # | Pesan Utama | Visual | Waktu |
 |---|-------------|--------|-------|
-| 1 | Title       |        | 30s   |
-| 2 | Problem     |        | 2min  |
-| 3 | Gap + RQ    |        | 2min  |
-| ..|             |        |       |
+| 1 | Title       | Judul, NIM (240202892), dan Nama (Abu Zaki) | 30s   |
+| 2 | Problem     | Ilustrasi rute wisata Semarang yang tidak logis | 2min  |
+| 3 | Gap + RQ    | Tabel perbandingan algoritma CF biasa vs Context-Aware | 1.5min|
+| 4 | Method      | Diagram alir K-Fold & Dataset (4.362 records) | 2min  |
+| 5 | Key Result 1| Tabel komparasi MAE & RMSE | 2min  |
+| 6 | Key Result 2| Bar chart / Box plot error rate | 2min  |
+| 7 | Interpretasi| Dampak praktis bagi UX turis di Semarang | 2min  |
+| 8 | Limitasi    | Faktor kemacetan dan topografi yang belum masuk | 1.5min|
+| 9 | Conclusion  | Ringkasan hipotesis terbukti & Future Work | 1.5min|
 
 Anticipatory Defense Matrix:
 | Kategori | Pertanyaan Potensial | Jawaban (CER) |
 |----------|---------------------|---------------|
-| Problem  |                     |               |
-| Gap      |                     |               |
-| Method   |                     |               |
-| Results  |                     |               |
-| Generalization |               |               |
+| Problem  | Mengapa jarak jadi fokus utama? | Bukti: CF standar sering merekomendasikan tempat bagus tapi terpisah 30km. Alasan: Jarak adalah batasan fisik absolut dalam UX pariwisata. |
+| Gap      | Apa bedanya dengan riset sebelumnya? | Bukti: Studi LBS lokal jarang memakai Google Maps Data riil sebesar ini. Alasan: Kami memadukan ulasan riil (4.362 data) dengan algoritma spasial. |
+| Method   | Yakin tidak ada data leakage? | Bukti: Perhitungan `item_means` murni dari `train_idx`. Alasan: Isolasi ketat K-Fold menjamin data uji 100% tidak pernah dilihat model. |
+| Results  | Beda MAE cuma 0.021, apa penting? | Bukti: Effect size besar & Paired t-test p<0.05. Alasan: Secara dunia nyata, beda skor error ini menyeleksi rute 1 jam perjalanan menjadi 15 menit. |
+| Generalization | Bisa dipakai di kota lain? | Bukti: Algoritma menggunakan Haversine absolut. Alasan: Bisa, namun parameter bobot jarak harus disesuaikan ulang dengan kepadatan tata kota tujuan. |
 
 Latihan:
-  Latihan 1: [tanggal] — [catatan timing & feedback]
-  Latihan 2: [tanggal] — [catatan timing & feedback]
-  Latihan 3: [tanggal] — [catatan timing & feedback]
-```
+  Latihan 1: H-3 UAS — Fokus pada kelancaran transisi antar slide (target 15 menit).
+  Latihan 2: H-2 UAS — Fokus pada intonasi dan penekanan pada slide Results (Tabel MAE).
+  Latihan 3: H-1 UAS — Mock-up Q&A (Latihan menjawab langsung ke poin Claim-Evidence-Reasoning).
 
 ---
 
@@ -121,17 +125,17 @@ Rencanakan presentasi 15 menit untuk riset Anda.
 
 | # | Pesan Utama | Visual yang Digunakan | Waktu |
 |---|-------------|----------------------|-------|
-| 1 | *Contoh: Judul + konteks — rekomendasi vs kepuasan* | *Title slide, gambar sistem* | *1 min* |
-| 2 | *Contoh: Problem — RMSE tinggi tapi satisfaction rendah (45/100)* | *Bar chart: satisfaction vs RMSE per sistem* | *2 min* |
-| 3 | *Contoh: Gap + RQ — belum ada CF+context untuk satisfaction* | *Tabel gap literatur* | *1.5 min* |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
+| 1 | Judul & Konteks: Sistem Rekomendasi Pariwisata Semarang (Context-Aware). | Title slide, logo Universitas Putra Bangsa, nama Abu Zaki. | 1 min |
+| 2 | Problem: CF standar mengabaikan jarak (merekomendasikan wisata beda ujung kota). | Peta Semarang dengan titik wisata yang saling berjauhan (Visualisasi jarak). | 2 min |
+| 3 | Gap + RQ: Integrasi filter geospasial pada CF untuk menurunkan *error* rekomendasi. | *Bullet points* singkat (Rumusan Masalah). | 1.5 min |
+| 4 | Method: Penggunaan 4.362 data ulasan riil Google Maps, *Haversine formula*, & 5-Fold CV. | Diagram *Pipeline Preprocessing* & *Dataset Snapshot*. | 2 min |
+| 5 | Results (Tabel): *Context-Aware* sukses mencatat MAE 0.651, mengungguli *Baseline* (0.672). | Tabel bersih (*Clean Table*) perbandingan metrik dengan cetak tebal pada skor terbaik. | 2 min |
+| 6 | Results (Grafik): Stabilitas metode intervensi di setiap putaran (*runs*). | *Box Plot* sebaran MAE hasil pengujian Python. | 2 min |
+| 7 | Interpretation: Hipotesis diterima, efek ukuran (Cohen's d) besar. | Teks singkat tentang *practical significance* di lapangan. | 2 min |
+| 8 | Limitation: Hanya menghitung metrik jarak lurus (Km), bukan waktu tempuh riil (kemacetan/topografi). | Ikon limitasi (jam pasir / ikon jalan macet). | 1.5 min |
+| 9 | Conclusion: Algoritma *Context-Aware* siap diaplikasikan untuk *smart tourism* Semarang. | Teks kesimpulan yang kuat (1 kalimat puncak). | 1 min |
 
-**Total waktu estimasi:** ____ menit
+**Total waktu estimasi:** 15 menit
 
 ---
 
@@ -141,11 +145,11 @@ Prediksi 5 pertanyaan yang mungkin diajukan penguji, lalu siapkan jawaban CER.
 
 | # | Kategori | Pertanyaan | Claim | Evidence | Reasoning |
 |---|----------|-----------|-------|----------|-----------|
-| 1 | *Problem* | *Contoh: Mengapa fokus kepuasan, bukan akurasi?* | *Akurasi tinggi tidak menjamin kepuasan* | *Survey: 45/100 satisfaction meski RMSE 0.87* | *Gap antara metrik teknis dan pengalaman pengguna* |
-| 2 | *Method* | *Contoh: Mengapa hanya 3 dataset?* | *3 dataset mewakili variasi: small-clean, medium-clean, medium-noisy* | *Tabel karakteristik dataset di Bab Method* | *Generalisasi perlu validasi lanjut — tercatat sebagai limitasi* |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | *Problem* | Mengapa tidak menggunakan variabel kepuasan pengguna saja alih-alih jarak? | Jarak adalah hambatan fisik absolut bagi wisatawan. | CF standar sering memunculkan RMSE bagus tapi rute rekomendasinya tidak masuk akal (beda ujung kota). | Tanpa filter spasial, rekomendasi seakurat apa pun tidak akan dieksekusi oleh turis karena kendala logistik. |
+| 2 | *Method* | Mengapa Anda sangat yakin tidak terjadi *data leakage*? | Metodologi di-*coding* dengan prinsip isolasi K-Fold yang ketat. | Variabel `item_means` (rata-rata rating item) dihitung murni hanya dari indeks *training set*, bukan seluruh data. | Proses normalisasi parameter secara terpisah ini memastikan model benar-benar "buta" terhadap *test set*. |
+| 3 | *Results* | Selisih nilai MAE (0.021) terlihat kecil. Apakah ini signifikan secara praktis? | Ya, dampaknya sangat signifikan di dunia nyata. | Uji *Paired t-test* menunjukkan p<0.05 dan *Cohen's d* bervolume besar. | Penurunan *error* kecil pada algoritma agregasi berskala 4.000+ matriks berdampak drastis pada perangkingan (Top-N) yang akan dilihat pengguna. |
+| 4 | *Method* | Mengapa Anda tidak menghapus data yang jauh dari pusat kota (*outlier*)? | Data yang tersebar mencerminkan realita pariwisata Semarang. | File CSV menunjukkan 4.362 data utuh (0 *missing values*). | Menghapus destinasi terpencil (*outlier*) justru memanipulasi data riil dan merusak tujuan algoritma *Context-Aware* itu sendiri. |
+| 5 | *Limitation* | Apa kelemahan terbesar dari algoritma yang Anda bangun ini? | Tidak mempertimbangkan *real-time traffic* (kemacetan). | Metode menggunakan *Haversine* (jarak melintang udara/lurus). | Di kota bersudut pandang topografi miring seperti Semarang, jarak lurus 2 Km bisa memakan waktu 30 menit jika rutenya menanjak dan macet. |
 
 ---
 
@@ -154,15 +158,16 @@ Prediksi 5 pertanyaan yang mungkin diajukan penguji, lalu siapkan jawaban CER.
 Minta teman/kolega mengajukan 3 pertanyaan tentang riset Anda. Catat pertanyaan dan evaluasi jawaban Anda.
 
 | # | Pertanyaan | Jawaban Saya | Evaluasi |
-|---|-----------|-------------|---------|| *1* | *Contoh: "Mengapa tidak membandingkan dengan metode Y?"* | *Contoh: "Karena Y memerlukan dataset labeled yang tidak tersedia. Disebutkan sebagai limitasi di halaman X."* | *[✓] Direct [✓] Data-based [✓] Honest* || 1 | | | [ ] Direct [ ] Data-based [ ] Honest |
-| 2 | | | [ ] Direct [ ] Data-based [ ] Honest |
-| 3 | | | [ ] Direct [ ] Data-based [ ] Honest |
+|---|-----------|-------------|---------|
+| 1 | "Berapa banyak data yang di-*drop* saat *preprocessing*?" | "Nol. Dataset awal terverifikasi 4.362 baris yang sudah lengkap dengan koordinat Lat/Lon, sehingga tidak ada *listwise deletion*." | [x] Direct [x] Data-based [x] Honest |
+| 2 | "Mengapa tidak pakai algoritma *Deep Learning* sekalian?" | "Karena riset ini fokus mengukur dampak penambahan *Context-Aware* pada struktur dasar CF (*Baseline*). *Deep Learning* terlalu *black-box* dan rentan *overfitting* untuk ukuran data ini." | [x] Direct [x] Data-based [x] Honest |
+| 3 | "Apakah algoritma ini bisa mendeteksi preferensi *backpacker* yang suka jalan jauh?" | "Untuk saat ini belum. Batasan radius geografisnya masih statis. Di *future work*, fitur radius ini harusnya bisa diatur (*toggle*) secara dinamis oleh tipe pengguna." | [x] Direct [x] Data-based [x] Honest |
 
 **Pertanyaan yang paling sulit dijawab:**
-> ___________________________________________________
+> Menjelaskan mengapa selisih skor MAE (0.672 ke 0.651) disebut "signifikan". Terkadang penguji awam mengira perbedaan baru dibilang bagus kalau angkanya turun setengahnya.
 
 **Apa yang perlu disiapkan lebih baik:**
-> ___________________________________________________
+> Berlatih analogi (*practical significance*). Mempersiapkan penjelasan bahasa manusia bahwa dalam sistem rekomendasi, pergeseran persentase desimal (*error rate*) memengaruhi urutan destinasi di layar HP pengguna secara masif.
 
 ---
 
@@ -171,7 +176,7 @@ Minta teman/kolega mengajukan 3 pertanyaan tentang riset Anda. Catat pertanyaan 
 > Dari seluruh proses WS-01 sampai WS-16 — dari paradigma riset hingga presentasi — bagian mana yang paling mengubah cara Anda berpikir tentang riset? Apa satu hal yang akan selalu Anda terapkan di riset berikutnya?
 
 **Insight terbesar:**
-> ___________________________________________________
+> Bagian yang paling mengubah pola pikir saya adalah pemahaman mengenai **Data Leakage (Kebocoran Data)** dan **Failure Analysis**. Sebelumnya, saya mengira riset komputasi itu sekadar "menulis kode Python, di-*run*, lalu angkanya dimasukkan skripsi". Kini saya paham bahwa setiap langkah *preprocessing*, peletakan indeks *K-Fold*, hingga kejujuran tidak memanipulasi *outlier* adalah inti dari sains yang sebenarnya. Hipotesis yang ditolak pun bukanlah sebuah "kiamat", melainkan temuan *boundary condition* yang valid.
 
 **Yang akan selalu diterapkan:**
-> ___________________________________________________
+> Saya akan selalu menerapkan prinsip **"Writing Method & Results First"** dan **"Pipeline Evaluation Logis"**. Daripada terjebak berbulan-bulan di Bab 1 (Pendahuluan), saya akan selalu fokus memastikan bahwa data riil berhasil di-*crawling*, dibersihkan (tanpa bocor), dan dieksekusi secara matematis terlebih dahulu, barulah menyusun argumen laporannya secara mundur (IMRAD).
