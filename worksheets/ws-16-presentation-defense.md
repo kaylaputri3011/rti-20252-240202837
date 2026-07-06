@@ -85,10 +85,9 @@ Prediksi pertanyaan berdasarkan kategori:
 DEFENSE PREPARATION
 
 Slide Deck Plan:
-  Total slides   : ____ (target: 10-12 Slide Deck Plan:
-  Total slides   : 9 slides utama + 1 Title + 1 Closing (Total 11)
-  Time per slide : ~1.5 menit
-  Total time     : 15 menit
+> Total slides   : 9 slides utama + 1 Title + 1 Closing (Total 11)
+> Time per slide : ~1.5 menit
+> Total time     : 15 menit
 
 Slide Outline:
 | # | Pesan Utama | Visual | Waktu |
@@ -113,9 +112,9 @@ Anticipatory Defense Matrix:
 | Generalization | Bisa dipakai di kota lain? | Bukti: Algoritma menggunakan Haversine absolut. Alasan: Bisa, namun parameter bobot jarak harus disesuaikan ulang dengan kepadatan tata kota tujuan. |
 
 Latihan:
-  Latihan 1: H-3 UAS — Fokus pada kelancaran transisi antar slide (target 15 menit).
-  Latihan 2: H-2 UAS — Fokus pada intonasi dan penekanan pada slide Results (Tabel MAE).
-  Latihan 3: H-1 UAS — Mock-up Q&A (Latihan menjawab langsung ke poin Claim-Evidence-Reasoning).
+> Latihan 1: H-3 UAS — Fokus pada kelancaran transisi antar slide (target 15 menit).
+> Latihan 2: H-2 UAS — Fokus pada intonasi dan penekanan pada slide Results (Tabel MAE).
+> Latihan 3: H-1 UAS — Mock-up Q&A (Latihan menjawab langsung ke poin Claim-Evidence-Reasoning).
 
 ---
 
