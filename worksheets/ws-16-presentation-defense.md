@@ -86,7 +86,9 @@ DEFENSE PREPARATION
 
 Slide Deck Plan:
 > Total slides   : 9 slides utama + 1 Title + 1 Closing (Total 11)
+> 
 > Time per slide : ~1.5 menit
+> 
 > Total time     : 15 menit
 
 Slide Outline:
@@ -113,7 +115,9 @@ Anticipatory Defense Matrix:
 
 Latihan:
 > Latihan 1: H-3 UAS — Fokus pada kelancaran transisi antar slide (target 15 menit).
+> 
 > Latihan 2: H-2 UAS — Fokus pada intonasi dan penekanan pada slide Results (Tabel MAE).
+> 
 > Latihan 3: H-1 UAS — Mock-up Q&A (Latihan menjawab langsung ke poin Claim-Evidence-Reasoning).
 
 ---
