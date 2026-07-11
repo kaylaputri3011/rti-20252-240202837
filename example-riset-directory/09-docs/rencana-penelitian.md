@@ -1,27 +1,46 @@
-# Rencana Penelitian: Mitigasi JWKS Endpoint Flooding dengan Redis-PostgreSQL Hybrid Caching
+# Rencana Penelitian: Context-Aware Collaborative Filtering untuk Pariwisata Semarang
 
 ## 1. Ringkasan
 
 | Item | Keterangan |
 |---|---|
-| Judul | Performance and Security Evaluation of Mitigating JWKS Endpoint Flooding on Microservices Gateway Using Redis-PostgreSQL Hybrid Caching |
-| Target Publikasi | Sinta 2 (Jurnal RESTI/Telematika) atau Scopus Q3-Q4 |
-| Stack | Docker, PostgreSQL, Redis, API Gateway (Go), k6 |
-| Masalah | JWKS Endpoint Flooding via `kid` acak → kueri tak terbatas ke Identity Service/DB → resource exhaustion |
-| Solusi | Hybrid cache (Redis L1 + PostgreSQL L2) + negative caching + rate-limiting pada lookup kunci |
+| Judul | Peningkatan Akurasi Sistem Rekomendasi Pariwisata Semarang Menggunakan Algoritma Context-Aware Collaborative Filtering |
+| Peneliti | Kayla Putri Arsonisr (240202837) |
+| Target Publikasi | Skripsi / Jurnal Lokal (Sinta 4-5) |
+| Stack | Python, pandas, scikit-learn, geopy, scipy |
+| Masalah | CF standar mengabaikan jarak geografis → rekomendasi tidak praktis (destinasi terpisah puluhan km) |
+| Solusi | Integrasi filter spasial (Haversine, radius 10 km) + 5-Fold CV untuk validasi ketat |
+| Dataset | 4.362 ulasan Google Maps Semarang (0 missing values) |
+| Hasil Target | MAE Context-Aware < MAE Baseline (penurunan ≥ 2%, p < 0.05) |
+
+---
 
 ## 2. Alur Kerja (Roadmap)
 
 Setiap tahap memiliki file rencana detail tersendiri agar lebih rapi:
 
-- [x] **Tahap 1** — [Perancangan Arsitektur & Skema Database](tahap-1-arsitektur-dan-skema-database.md) — *Selesai*
-- [x] **Tahap 2** — [Implementasi API Gateway (Go)](tahap-2-implementasi-gateway.md) — *Selesai*
-- [x] **Tahap 3** — [Skrip Pengujian k6 (Legitimate vs Attack Traffic)](tahap-3-pengujian-k6.md) — *Selesai*
-- [x] **Tahap 4** — [Ekstraksi Data & Visualisasi](tahap-4-analisis-data.md) — *Selesai*
-- [ ] **Tahap 5** — [Draf Paper Jurnal](tahap-5-draf-paper.md) — *Berikutnya*
+- [x] **Tahap 1** — [Perancangan Arsitektur & Studi Literatur](tahap-1-arsitektur-dan-studi-literatur.md) — *Selesai*
+- [x] **Tahap 2** — [Pengumpulan & Preprocessing Data](tahap-2-pengumpulan-data.md) — *Selesai*
+- [x] **Tahap 3** — [Implementasi Algoritma (Baseline & Context-Aware)](tahap-3-implementasi-algoritma.md) — *Selesai*
+- [x] **Tahap 4** — [Eksperimen, Evaluasi & Analisis Statistik](tahap-4-eksperimen-evaluasi.md) — *Selesai*
+- [ ] **Tahap 5** — [Penulisan Draft Paper/Laporan](tahap-5-penulisan-paper.md) — *Sedang Berjalan*
 
 ---
 
 ## 3. Catatan
 
 Dokumen ini adalah indeks utama. Detail teknis, skema, dan keputusan masing-masing tahap dicatat pada file `tahap-N-*.md` terkait dan diperbarui seiring progres pengerjaan.
+
+**Status Keseluruhan:** 🔄 Tahap 5 (Penulisan) — 85% selesai
+
+**Progres Milestone:**
+- ✅ Dataset collected & cleaned (4.362 records)
+- ✅ Baseline CF implemented & validated
+- ✅ Context-Aware CF implemented (Haversine pre-filtering)
+- ✅ 5-Fold CV executed (MAE: 0.651 vs 0.672, p < 0.001)
+- 🔄 Draft paper in progress
+
+**Next Actions:**
+- Finalisasi bagian Related Work
+- Revisi visualisasi hasil eksperimen
+- Review pembimbing

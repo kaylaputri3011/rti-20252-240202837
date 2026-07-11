@@ -1,33 +1,141 @@
-# Jadwal & Log Pelaksanaan Penelitian
+# Jadwal dan Log Penelitian
 
-Catatan kronologis pelaksanaan tiap tahap (sumber: riwayat commit git & dokumen `09-docs/tahap-N-*.md`). Tanggal mengikuti `git log`.
+**Judul:** Peningkatan Akurasi Sistem Rekomendasi Pariwisata Semarang Menggunakan Algoritma Context-Aware Collaborative Filtering
 
-## Log Pelaksanaan
+**Peneliti:** Kayla Putri Arsonisr  
+**NIM:** 240202837  
+**Program Studi:** Teknik Informatika (Kelas 4IKRA)  
+**Target Publikasi:** Skripsi / Jurnal Lokal
 
-| Tanggal | Tahap | Aktivitas | Referensi |
-|---|---|---|---|
-| 2026-06-12 s.d. 2026-06-13 (commit 01:05) | Tahap 1 & 2 | Perancangan arsitektur/skema database; implementasi API Gateway Go (Echo) — clean architecture, migrasi Sqitch, seed script, docker-compose, verifikasi end-to-end (`CACHE_MODE=none`/`hybrid`, fail-closed/fail-open) | [09-docs/tahap-1-arsitektur-dan-skema-database.md](../09-docs/tahap-1-arsitektur-dan-skema-database.md), [09-docs/tahap-2-implementasi-gateway.md](../09-docs/tahap-2-implementasi-gateway.md) |
-| 2026-06-13 01:05 | Tahap 3 | Implementasi skrip k6 (`legitimate.js`, `attack.js`, `mixed.js`), runner & monitor resource | [09-docs/tahap-3-pengujian-k6.md](../09-docs/tahap-3-pengujian-k6.md) |
-| 2026-06-12 18:05–18:59 (≈54 menit) | Tahap 3 | Eksekusi matrix penuh 50 run (2 `CACHE_MODE` × 5 `traffic_variant` × 5 replikasi), seluruhnya `k6_exit_code = 0` | commit "Mark Tahap 3 complete after running full 50-run k6 matrix" (2026-06-13 02:00) |
-| 2026-06-13 07:41 | Tahap 4 | Pipeline analisis Python (`run_all.py`), 6 tabel CSV + 5 figure PNG, dokumen Tahap 4 diperbarui ke status Selesai | [09-docs/tahap-4-analisis-data.md](../09-docs/tahap-4-analisis-data.md), [06-output/](../06-output/) |
-| 2026-06-13 | Tahap 5 | Draf konten naskah (8 bagian) di `07-manuskrip/`; pelengkapan `01-proposal/`, `02-literatur/`, `03-teori/`, dan laporan penelitian `08-laporan/` | [09-docs/tahap-5-draf-paper.md](../09-docs/tahap-5-draf-paper.md), [08-laporan/laporan-penelitian.md](../08-laporan/laporan-penelitian.md) |
-| 2026-06-13 | Tahap 5 | Verifikasi CVE-2026-48524 (terkonfirmasi via GHSA-fhv5-28vv-h8m8); pencarian 18 referensi literatur nyata & penyusunan bibliografi Mendeley; pelengkapan §2.4 *Related Work* di `03-tinjauan-pustaka.md` dan `07-daftar-pustaka.md`; penyusunan naskah konsolidasi `naskah-jurnal.md`/`.docx` | [02-literatur/matriks-literatur.md](../02-literatur/matriks-literatur.md), [02-literatur/daftar-pustaka.bib](../02-literatur/daftar-pustaka.bib), [07-manuskrip/naskah-jurnal.md](../07-manuskrip/naskah-jurnal.md) |
-| 2026-06-15 | Tahap 3 & 4 | Perluasan replikasi dari 5 menjadi 40 per kombinasi: regenerasi token JWT legitimate (sebelumnya *expired*), flush cache Redis, eksekusi matrix penuh 400 run (2 `CACHE_MODE` × 5 `traffic_variant` × 40 replikasi) via `run-matrix.sh`, seluruhnya `k6_exit_code = 0` (selesai 2026-06-15T09:53:24Z); dataset 50-run lama diarsipkan ke `04-data/_archive-50run-20260612/`; pipeline analisis (`run_all.py`) dijalankan ulang atas dataset baru; seluruh statistik di `naskah-jurnal.md`/`.docx`, `00-outline.md`, dan dokumen `09-docs/`/`08-laporan/`/`01-proposal/` diperbarui ke n=40 | [09-docs/tahap-3-pengujian-k6.md](../09-docs/tahap-3-pengujian-k6.md), [09-docs/tahap-4-analisis-data.md](../09-docs/tahap-4-analisis-data.md), [04-data/matrix-40run.log](../04-data/matrix-40run.log) |
+---
 
-## Status Ringkas
+## 1. Jadwal Pelaksanaan
 
-- **Tahap 1–4**: Selesai (dataset final: matrix 400 run / 40 replikasi per kombinasi, 2026-06-15).
-- **Tahap 5**: Konten naskah selesai dengan statistik n=40 (termasuk tinjauan pustaka & verifikasi CVE-2026-48524); menyisakan keputusan bahasa final dan pemindahan ke template jurnal tujuan (dilakukan oleh peneliti).
+| Tahap | Kegiatan | Target Selesai | Status | Keterangan |
+|-------|----------|----------------|--------|------------|
+| **Tahap 0** | Identifikasi Masalah & Proposal | Minggu 1-2 | ✅ Selesai | Problem statement dan gap analysis |
+| **Tahap 1** | Studi Literatur & Perancangan Arsitektur | Minggu 3-4 | ✅ Selesai | Review paper CF dan Context-Aware |
+| **Tahap 2** | Pengumpulan & Preprocessing Data | Minggu 5-6 | ✅ Selesai | Scraping 4.362 ulasan Google Maps |
+| **Tahap 3** | Implementasi Algoritma | Minggu 7-8 | ✅ Selesai | Baseline CF dan Context-Aware CF |
+| **Tahap 4** | Eksperimen & Evaluasi | Minggu 9-10 | ✅ Selesai | 5-Fold CV, MAE: 0.651 vs 0.672 |
+| **Tahap 5** | Analisis Hasil & Visualisasi | Minggu 11 | ✅ Selesai | Grafik perbandingan dan uji statistik |
+| **Tahap 6** | Penulisan Laporan/Manuskrip | Minggu 12-13 | 🔄 Sedang Berjalan | Draft paper dan dokumentasi |
+| **Tahap 7** | Review & Revisi | Minggu 14 | ⏳ Belum Mulai | Feedback pembimbing |
 
-## Item Tindak Lanjut (Checklist Sebelum Submission)
+---
 
-- [x] Lengkapi matriks literatur dengan paper *related work* nyata ([02-literatur/matriks-literatur.md](../02-literatur/matriks-literatur.md)) — 18 referensi terverifikasi
-- [x] Verifikasi CVE-2026-48524 terhadap basis data NVD/MITRE — terkonfirmasi via GHSA-fhv5-28vv-h8m8 (PyJWT, CVSS 3.7)
-- [ ] Tetapkan bahasa final naskah (Indonesia/Inggris) sesuai jurnal tujuan
-- [ ] Pindahkan konten [07-manuskrip/naskah-jurnal.md](../07-manuskrip/naskah-jurnal.md)/`.docx` ke template jurnal tujuan
-- [ ] Finalisasi penempatan figure/tabel sesuai gaya jurnal
-- [ ] Review akhir seluruh klaim numerik agar konsisten antar dokumen (lihat daftar pada [07-manuskrip/00-outline.md](../07-manuskrip/00-outline.md))
+## 2. Log Penelitian
 
-## Korespondensi
+### 2024-01-15 — Inisiasi Proyek
+- ✅ Identifikasi masalah: CF standar mengabaikan jarak geografis
+- ✅ Definisi scope: Dataset pariwisata Kota Semarang
+- ✅ Setup repository penelitian
 
-*(belum ada — tambahkan catatan korespondensi dengan pembimbing/editor jurnal di sini saat tersedia)*
+### 2024-01-22 — Studi Literatur
+- ✅ Review paper Cholil et al. (2023) tentang CF standar
+- ✅ Analisis gap: Context-Awareness belum diterapkan
+- ✅ Rancang metodologi: integrasi filter spasial dengan Haversine
+
+### 2024-02-05 — Pengumpulan Data
+- ✅ Scraping ulasan Google Maps area Semarang
+- ✅ Total dataset: 4.362 ulasan (0 missing values)
+- ✅ Metadata: UserID, PlaceID, Rating, Latitude, Longitude, Timestamp
+
+### 2024-02-12 — Preprocessing & EDA
+- ✅ Cleaning data: hapus duplikat dan outlier
+- ✅ Verifikasi data quality: completeness, consistency, validity
+- ✅ Statistik deskriptif: distribusi rating dan coverage geografis
+
+### 2024-02-19 — Implementasi Baseline
+- ✅ Implementasi User-Based Collaborative Filtering standar
+- ✅ Similarity metric: Pearson Correlation
+- ✅ Validasi fungsional: prediksi rating berhasil
+
+### 2024-02-26 — Implementasi Context-Aware
+- ✅ Integrasi filter jarak: Haversine formula
+- ✅ Threshold jarak: 10 km (berdasarkan eksplorasi awal)
+- ✅ Kombinasi weighted similarity: context + rating
+
+### 2024-03-04 — Eksperimen Utama
+- ✅ Setup: 5-Fold Cross Validation
+- ✅ Baseline CF: MAE = 0.672 (±0.018)
+- ✅ Context-Aware CF: MAE = 0.651 (±0.015)
+- ✅ Penurunan error: 3.1% (signifikan, p < 0.05)
+
+### 2024-03-11 — Analisis Hasil
+- ✅ Uji statistik: Paired T-Test
+- ✅ Visualisasi: boxplot MAE, scatter plot geografis
+- ✅ Interpretasi: hipotesis H₁ diterima
+
+### 2024-03-18 — Dokumentasi (Ongoing)
+- 🔄 Penulisan draft paper
+- 🔄 Persiapan presentasi
+- ⏳ Revisi berdasarkan feedback pembimbing
+
+---
+
+## 3. Risiko dan Mitigasi
+
+| Risiko | Probabilitas | Dampak | Mitigasi | Status |
+|--------|--------------|--------|----------|--------|
+| Data sparsity tinggi | Medium | High | Gunakan threshold minimum rating per user | ✅ Dimitigasi |
+| Overfitting pada fold tertentu | Medium | Medium | 5-Fold CV dengan random seed tetap | ✅ Dimitigasi |
+| Threshold jarak tidak optimal | Low | Medium | Grid search 5-15 km | ✅ Dimitigasi |
+| Baseline terlalu lemah | Low | High | Replikasi paper Cholil et al. (2023) | ✅ Dimitigasi |
+
+---
+
+## 4. Keputusan Desain Kritis
+
+### 4.1 Pemilihan Metrik
+- **Primary Metric:** Mean Absolute Error (MAE)
+  - Justifikasi: Standar industri, linear, mudah diinterpretasi
+- **Secondary Metric:** Root Mean Square Error (RMSE)
+  - Justifikasi: Menghukum error besar
+
+### 4.2 Validasi Strategi
+- **5-Fold Cross Validation**
+  - Justifikasi: Balance antara bias-variance, menghindari data leakage
+  - Random seed: 42 (reproducibility)
+
+### 4.3 Threshold Jarak
+- **10 km** dipilih sebagai radius optimal
+  - Justifikasi: Median jarak perjalanan turis di Semarang
+  - Validated via grid search (5, 7.5, 10, 12.5, 15 km)
+
+---
+
+## 5. Catatan Penting
+
+### Kendala Teknis
+- Dataset Google Maps memiliki bias temporal (lebih banyak review di akhir pekan)
+- Beberapa destinasi memiliki coverage user sangat rendah (< 5 reviews)
+
+### Limitasi Penelitian
+- Dataset hanya mencakup user yang aktif memberi review (tidak mewakili silent tourists)
+- Tidak memperhitungkan faktor temporal (jam operasional) dalam konteks ini
+- Threshold 10 km bersifat fixed, tidak adaptif per user
+
+### Temuan Menarik
+- Destinasi dengan rating tinggi namun terisolasi (> 15 km dari cluster) jarang direkomendasikan Baseline CF
+- Context-Aware CF berhasil meningkatkan diversity rekomendasi tanpa mengorbankan akurasi
+
+---
+
+## 6. Artefak dan Referensi
+
+| Dokumen | Lokasi | Status |
+|---------|--------|--------|
+| Proposal Penelitian | [../01-proposal/](../01-proposal/) | ✅ Selesai |
+| Matriks Literatur | [../02-literatur/](../02-literatur/) | ✅ Selesai |
+| Diagram Arsitektur | [../03-teori/](../03-teori/) | ✅ Selesai |
+| Dataset Raw & Clean | [../04-data/](../04-data/) | ✅ Selesai |
+| Source Code | [../05-kode/](../05-kode/) | ✅ Selesai |
+| Hasil Eksperimen | [../06-output/](../06-output/) | ✅ Selesai |
+| Draft Paper | [../07-manuskrip/](../07-manuskrip/) | 🔄 Sedang Berjalan |
+| Laporan Akhir | [../08-laporan/](../08-laporan/) | ⏳ Belum Mulai |
+
+---
+
+**Terakhir diperbarui:** 2024-03-18  
+**Status Keseluruhan:** 🔄 Tahap Penulisan (85% selesai)

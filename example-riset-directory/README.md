@@ -1,42 +1,101 @@
-# [EXAMPLE] JWKS Flooding — Penelitian Mitigasi JWKS Endpoint Flooding
+# example-riset-directory
 
-**Judul:** Performance and Security Evaluation of Mitigating JWKS Endpoint Flooding on Microservices Gateway Using Redis-PostgreSQL Hybrid Caching
+Contoh struktur direktori penelitian yang lengkap — rekonstruksi berdasarkan penelitian riil Kayla Putri Arsonisr (240202837).
 
-**Target publikasi:** Sinta 2 (Jurnal RESTI/Telematika) atau Scopus Q3-Q4
+---
 
-## Ringkasan
+## Konteks Penelitian
 
-Penelitian ini mengevaluasi mitigasi celah keamanan **JWKS Endpoint Flooding** (mirip CVE-2026-48524) — di mana penyerang membanjiri API Gateway dengan JWT ber-`kid` (Key ID) acak sehingga resolver JWKS melakukan kueri tak terbatas ke Identity Service/database, menyebabkan resource exhaustion. Solusi yang diuji adalah skema **Redis-PostgreSQL Hybrid Caching** (positive & negative cache) dengan rate-limiting pada lookup kunci, diimplementasikan pada API Gateway berbasis Go (Echo).
+**Judul:** Peningkatan Akurasi Sistem Rekomendasi Pariwisata Semarang Menggunakan Algoritma Context-Aware Collaborative Filtering
 
-Detail lengkap topik & roadmap: [09-docs/rencana-penelitian.md](09-docs/rencana-penelitian.md)
+**Peneliti:** Kayla Putri Arsonisr (NIM: 240202837), Program Studi Teknik Informatika (Kelas 4IKRA)
+
+**Metode:** Eksperimen terkontrol menggunakan dataset 4.362 ulasan riil Google Maps, perbandingan Baseline User-Based CF vs Context-Aware CF dengan spatial pre-filtering (Haversine, radius 10 km), validasi 5-Fold Cross Validation
+
+**Status:** Tahap 1–4 selesai; Tahap 5 (penulisan paper) sedang berjalan (85%)
+
+---
 
 ## Struktur Direktori
 
-| Folder | Isi |
-|---|---|
-| [00-admin/](00-admin/) | Administrasi penelitian (jadwal, korespondensi) |
-| [01-proposal/](01-proposal/) | Proposal penelitian |
-| [02-literatur/](02-literatur/) | Referensi & paper terkait (Tinjauan Pustaka) |
-| [03-teori/](03-teori/) | Arsitektur & desain sistem (Tahap 1) |
-| [04-data/](04-data/) | Data mentah hasil pengujian k6 & metrik container |
-| [05-kode/](05-kode/) | Source code: API Gateway (Go) & skrip k6 (Tahap 2 & 3) |
-| [06-output/](06-output/) | Statistik & visualisasi hasil pengujian (Tahap 4) |
-| [07-manuskrip/](07-manuskrip/) | Draf naskah jurnal (Tahap 5) |
-| [08-laporan/](08-laporan/) | Laporan progres/akhir penelitian |
-| [09-docs/](09-docs/) | Dokumen perencanaan & roadmap tahap-tahap penelitian |
+| Folder | Isi | Deliverable |
+|---|---|---|
+| [00-admin/](00-admin/) | Jadwal penelitian, log progres, risk management | `jadwal-dan-log-penelitian.md` |
+| [01-proposal/](01-proposal/) | Proposal penelitian lengkap | `proposal-penelitian.md` |
+| [02-literatur/](02-literatur/) | Matriks literatur (15 paper), gap analysis | `matriks-literatur.md` |
+| [03-teori/](03-teori/) | Arsitektur sistem, landasan teori (CF, CARS), formula Haversine | `arsitektur-sistem.md` |
+| [04-data/](04-data/) | Dataset raw (5.123) dan clean (4.362), EDA | `raw/`, `clean/` |
+| [05-kode/](05-kode/) | Source code (Baseline CF, Context-Aware CF, eksperimen) | `src/`, `notebooks/`, `tests/` |
+| [06-output/](06-output/) | Tabel hasil eksperimen, visualisasi (boxplot, scatter, improvement) | `tables/`, `figures/` |
+| [07-manuskrip/](07-manuskrip/) | Draft paper jurnal (Abstrak–Kesimpulan) | Draft sedang berjalan (85%) |
+| [08-laporan/](08-laporan/) | Laporan penelitian lengkap | [`laporan-penelitian.md`](08-laporan/laporan-penelitian.md) |
+| [09-docs/](09-docs/) | Dokumentasi rencana & status tiap tahap (1–5) | `rencana-penelitian.md`, `tahap-N-*.md` |
+
+---
+
+## Temuan Utama (Ringkasan)
+
+- **Baseline CF (standar):** MAE = 0,6720 ± 0,0025 (Pearson Correlation, K=30)
+- **Context-Aware CF (spatial):** MAE = **0,6511 ± 0,0021** (pre-filtering Haversine, radius 10 km)
+- **Improvement:** Penurunan MAE **3,11%** (0,0209 poin), signifikan dengan ***p* < 0,001**, Cohen's *d* = 8,37
+- **Error by Distance:** Perbaikan terbesar pada destinasi dekat (**3,88%** untuk jarak < 5 km)
+- **Coverage:** 87,7% prediksi menggunakan CF penuh (12,3% ter-filter di luar radius)
+- **Hipotesis H₁ DITERIMA:** Context-Aware CF terbukti secara empiris lebih akurat dibanding Baseline CF
+
+Detail lengkap: [08-laporan/laporan-penelitian.md](08-laporan/laporan-penelitian.md)
+
+---
+
+## Kontribusi Penelitian
+
+| Aspek | Kontribusi |
+|-------|------------|
+| **Context Gap** | Membuktikan empiris bahwa dimensi spasial meningkatkan akurasi CF pada domain pariwisata |
+| **Method Gap** | Implementasi Context-Aware CF untuk pariwisata lokal Indonesia (Semarang) |
+| **Evaluation Gap** | Protokol validasi ketat (5-Fold CV) yang reproducible |
+| **Dataset** | Dataset terstruktur pariwisata Semarang (4.362 ulasan) untuk penelitian lanjutan |
+
+---
 
 ## Status Tahapan
 
-- [x] **Tahap 1** — Perancangan Arsitektur & Skema Database — *Selesai* ([detail](09-docs/tahap-1-arsitektur-dan-skema-database.md))
-- [x] **Tahap 2** — Implementasi API Gateway (Go) — *Selesai* ([detail](09-docs/tahap-2-implementasi-gateway.md))
-- [x] **Tahap 3** — Skrip Pengujian k6 (Legitimate vs Attack Traffic) — *Selesai* ([detail](09-docs/tahap-3-pengujian-k6.md))
-- [x] **Tahap 4** — Ekstraksi Data & Visualisasi — *Selesai* ([detail](09-docs/tahap-4-analisis-data.md))
-- [ ] **Tahap 5** — Draf Paper Jurnal — *Sedang berjalan* ([detail](09-docs/tahap-5-draf-paper.md))
+- [x] **Tahap 1** — Perancangan Arsitektur & Studi Literatur — *Selesai* ([detail](09-docs/tahap-1-arsitektur-dan-studi-literatur.md))
+- [x] **Tahap 2** — Pengumpulan & Preprocessing Data — *Selesai* ([detail](09-docs/tahap-2-pengumpulan-data.md))
+- [x] **Tahap 3** — Implementasi Algoritma — *Selesai* ([detail](09-docs/tahap-3-implementasi-algoritma.md))
+- [x] **Tahap 4** — Eksperimen & Evaluasi — *Selesai* ([detail](09-docs/tahap-4-eksperimen-evaluasi.md))
+- [ ] **Tahap 5** — Penulisan Draft Paper — *Sedang Berjalan (85%)* ([detail](09-docs/tahap-5-penulisan-paper.md))
 
-## Laporan Penelitian
+---
 
-Laporan penelitian komprehensif (ringkasan eksekutif, metodologi per tahap, hasil, kendala, kesimpulan): [08-laporan/laporan-penelitian.md](08-laporan/laporan-penelitian.md)
+## Cara Reproduksi
+
+```bash
+# Tahap 2: Preprocessing data
+cd 05-kode/src/data && python preprocess.py
+
+# Tahap 3: Grid search threshold jarak optimal
+cd 05-kode/notebooks && jupyter notebook 03_grid_search_radius.ipynb
+
+# Tahap 4: Eksperimen 5-Fold CV
+cd 05-kode/src && python experiment.py
+
+# Tahap 4: Analisis hasil & visualisasi
+cd 05-kode/notebooks && jupyter notebook 04_analysis.ipynb
+```
+
+---
+
+## Catatan
+
+- Dataset raw (5.123 records) dan clean (4.362 records) tersedia di folder `04-data/`
+- Source code fully documented dengan unit tests (12 test cases, 100% pass)
+- Random seed = 42 untuk reproducibility
+- Visualisasi hasil (3 figures) tersedia di `06-output/figures/`
+- Paper draft (85% selesai) sedang dalam review pembimbing
+
+---
 
 ## Author
 
-Helmi Bahar
+Kayla Putri Arsonisr (240202837)  
+Program Studi Teknik Informatika (Kelas 4IKRA)
